@@ -36,8 +36,15 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
 
     private GameOverScript GameOver;
+    [Header("PlayerDash")]
+    [SerializeField] private float dashPower = 100f;
+    [SerializeField] private float dashTime = 0.2f;
+    [SerializeField] private float dashCooldown = 1f;
+    private float dashCountdown = 0;
+    private int dashCount = 0;
+    private bool isDashing = false;
 
-
+    private GameOverScript GameOver;
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
@@ -47,16 +54,20 @@ public class NewMonoBehaviourScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {    
-        
+
     }
 
     // Update is called once per frame
     void Update()
-    {            
-        Move();
-        Jump();
-        wallSlide();
-        WallJump();
+    {
+        if (!isDashing)
+        {
+            Move();
+            Jump();
+            wallSlide();
+            WallJump();
+            StartCoroutine(Dash());
+        }
     }
 
     //movement function
@@ -105,15 +116,16 @@ return;
     private void wallSlide()
     {
         isTouchingWall = Physics2D.OverlapCircle(wallCheckpos.position, 0.1f, wallLayer);
+
         if (!isGrounded && isTouchingWall && rb.linearVelocityY < 0)
-        {
-            
+        {        
             isWallSliding = true;                     
         }
         else
         {            
             isWallSliding = false;
         }
+
         if (isWallSliding)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, -wallSlideSpeed);
@@ -142,12 +154,40 @@ return;
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
         }
     }
+        private IEnumerator Dash()
+    {
+        dashCountdown += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCount <1 && dashCountdown >= dashCooldown)
+        {
+            dashCountdown = 0;
+            dashCount++;
+            isDashing = true;
+
+            float originalGravity = rb.gravityScale;
+            rb.gravityScale = 0;
+            rb.linearVelocity = new Vector2(dashPower*direction , 0);
+            yield return new WaitForSeconds(dashTime);
+            rb.gravityScale = originalGravity;
+            isDashing = false;
+        }
+        if(isGrounded || isTouchingWall) dashCount = 0;
+    } 
     private void StopWallJumping()
     {
         IswallJumping = false;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "GameOver")
+        {
+            Debug.Log("Game Over");
+            GameOver.GameOver();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
         if (collision.gameObject.tag == "GameOver")
         {
             Debug.Log("Game Over");

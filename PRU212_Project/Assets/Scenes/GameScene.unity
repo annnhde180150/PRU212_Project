@@ -1648,6 +1648,9 @@ MonoBehaviour:
   groundCheck: {fileID: 151594793}
   maxJump: 2
   direction: 1
+  dashPower: 10
+  dashTime: 0.2
+  dashCooldown: 1
 --- !u!4 &1279272286 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7137139482695797508, guid: bf098975534e0344fa081e3714213e6d, type: 3}
