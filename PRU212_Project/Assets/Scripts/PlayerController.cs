@@ -35,7 +35,6 @@ public class NewMonoBehaviourScript : MonoBehaviour
     [SerializeField] private int direction = 1;
 
 
-    private GameOverScript GameOver;
     [Header("PlayerDash")]
     [SerializeField] private float dashPower = 100f;
     [SerializeField] private float dashTime = 0.2f;
@@ -178,16 +177,6 @@ return;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "GameOver")
-        {
-            Debug.Log("Game Over");
-            GameOver.GameOver();
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-
         if (collision.gameObject.tag == "GameOver")
         {
             Debug.Log("Game Over");
