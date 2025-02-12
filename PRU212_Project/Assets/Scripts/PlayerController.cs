@@ -28,16 +28,20 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private Rigidbody2D rb;
     private int direction = 1;
 
-   
+
+    private GameOverScript GameOver;
+
 
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        GameOver = FindObjectOfType<GameOverScript>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         canMove = true;
         wallJumping = false;
     }
@@ -92,7 +96,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private void wallSlide()
     {
         isTouchingWall = Physics2D.OverlapCircle(wallCheckpos.position, 0.1f, wallLayer);
-        if (!isGrounded & isTouchingWall)
+        if (!isGrounded && isTouchingWall)
         {
             wallJumping = true;
             isWallSliding = true;
@@ -103,20 +107,29 @@ public class NewMonoBehaviourScript : MonoBehaviour
             isWallSliding = false;
         }
             
-            
     }
 
     public void WallJump()
     {        
         //StartCoroutine(DissableMovement(0.1f));  
         //Vector2 wallDirection = isTouchingWall ? Vector2.right : Vector2.left;
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);       
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
     }
     IEnumerator DissableMovement(float time)
     {
         canMove = false;
         yield return new WaitForSeconds(time);
         canMove = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.tag == "GameOver")
+        {
+            Debug.Log("Game Over");
+            GameOver.GameOver();
+        }
     }
 }
 
