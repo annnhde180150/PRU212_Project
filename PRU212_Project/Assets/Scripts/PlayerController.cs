@@ -28,6 +28,13 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private Rigidbody2D rb;
     private int direction = 1;
 
+    [Header("PlayerDash")]
+    [SerializeField] private float dashPower = 100f;
+    [SerializeField] private float dashTime = 0.2f;
+    [SerializeField] private float dashCooldown = 1f;
+    private float dashCountdown = 0;
+    private int dashCount = 0;
+    private bool isDashing = false;
 
     private GameOverScript GameOver;
 
@@ -48,10 +55,14 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {            
-        Move();
-        Jump();
-        wallSlide();       
+    {
+        if (!isDashing)
+        {
+            Move();
+            Jump();
+            wallSlide();
+            StartCoroutine(Dash());
+        }
     }
 
     //movement function
@@ -72,7 +83,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     private void Jump()
     {
-        if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Vertical")) && JumpCount++ < maxJump-1)
+        if ((Input.GetButtonDown("Jump")) && JumpCount++ < maxJump-1)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
@@ -115,6 +126,26 @@ public class NewMonoBehaviourScript : MonoBehaviour
         //Vector2 wallDirection = isTouchingWall ? Vector2.right : Vector2.left;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
     }
+
+    private IEnumerator Dash()
+    {
+        dashCountdown += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCount <1 && dashCountdown >= dashCooldown)
+        {
+            dashCountdown = 0;
+            dashCount++;
+            isDashing = true;
+
+            float originalGravity = rb.gravityScale;
+            rb.gravityScale = 0;
+            rb.linearVelocity = new Vector2(dashPower*direction , 0);
+            yield return new WaitForSeconds(dashTime);
+            rb.gravityScale = originalGravity;
+            isDashing = false;
+        }
+        if(isGrounded || isTouchingWall) dashCount = 0;
+    }
+
     IEnumerator DissableMovement(float time)
     {
         canMove = false;
