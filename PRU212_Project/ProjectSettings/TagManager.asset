@@ -13,7 +13,7 @@ TagManager:
   - UI
   - Ground
   - Background
-  - 
+  - Wall
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 930011753
+    locked: 0
+  - name: Wall
+    uniqueID: 1590622891
     locked: 0
   - name: Ground
     uniqueID: 3532641265
