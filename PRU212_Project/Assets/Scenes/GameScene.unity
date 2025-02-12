@@ -1638,7 +1638,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   wallSlideSpeed: 3
-  canMove: 0
+  airMovementSpeed: 5
+  wallJumpingForce: {x: 8, y: 10}
   moveSpeed: 5
   jumpForce: 8
   groundLayer:
@@ -1646,6 +1647,7 @@ MonoBehaviour:
     m_Bits: 64
   groundCheck: {fileID: 151594793}
   maxJump: 2
+  direction: 1
   dashPower: 10
   dashTime: 0.2
   dashCooldown: 1
