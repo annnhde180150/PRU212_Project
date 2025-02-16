@@ -50,6 +50,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        GameOver = FindObjectOfType<GameOverScript>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -137,7 +138,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         if (isWallSliding)
         {
             IswallJumping = false;
-            
+            JumpCount = 0;
             wallJumpingCounter = wallJumpingTime;
             CancelInvoke(nameof(StopWallJumping));
         }
