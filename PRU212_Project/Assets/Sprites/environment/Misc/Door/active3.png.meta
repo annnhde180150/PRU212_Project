@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 73a0ffe289fff40f2bc8c85b76ec004d
+guid: 475a694f58a3449e2a72cb716577ee65
 AssetOrigin:
   serializedVersion: 1
   productId: 195244
   packageName: Stomper Platform Assets
   packageVersion: 1.0
-  assetPath: Assets/Stomper Artwork/PixelArt/Misc/Door/active4.png
+  assetPath: Assets/Stomper Artwork/PixelArt/Misc/Door/active3.png
   uploadId: 433025
 TextureImporter:
   internalIDToNameTable: []
@@ -54,8 +54,8 @@ TextureImporter:
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePivot: {x: 0.5, y: -17.45}
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1

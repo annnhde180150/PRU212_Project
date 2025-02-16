@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: edd5788e55655401897d588fbe6ac000
+guid: 658ad0f09bbb147f9a23271d119d91b3
 AssetOrigin:
   serializedVersion: 1
   productId: 195244
   packageName: Stomper Platform Assets
   packageVersion: 1.0
-  assetPath: Assets/Stomper Artwork/PixelArt/Misc/Door/door.png
+  assetPath: Assets/Stomper Artwork/PixelArt/environment/Back animated/back-animated2.png
   uploadId: 433025
 TextureImporter:
   internalIDToNameTable: []
@@ -55,7 +55,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
