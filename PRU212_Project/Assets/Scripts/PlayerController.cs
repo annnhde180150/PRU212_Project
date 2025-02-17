@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -64,10 +65,17 @@ public class NewMonoBehaviourScript : MonoBehaviour
     {
         if (!isDashing)
         {
+<<<<<<< HEAD
             Move();
             Jump();           
             CheckGrounded();
             wallSlide();
+=======
+            Move();          
+            Jump();
+            CheckGrounded();
+            wallSlide();           
+>>>>>>> DevVer4
             WallJump();
             StartCoroutine(Dash());
             
@@ -101,12 +109,19 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     private void Jump()
     {
+<<<<<<< HEAD
         if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Vertical")) && JumpCount++ < maxJump - 1 && !isWallSliding)
         {
             Debug.Log("Jump");
             animator.SetBool("IsJump",true);
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             
+=======
+        animator.SetBool("IsJump", true);
+        if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Vertical")) && JumpCount++ < maxJump - 1 && !isWallSliding)
+        {                    
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+>>>>>>> DevVer4
         }       
     } 
     private void CheckGrounded()
@@ -171,7 +186,6 @@ public class NewMonoBehaviourScript : MonoBehaviour
             dashCountdown = 0;
             dashCount++;
             isDashing = true;
-
             float originalGravity = rb.gravityScale;
             rb.gravityScale = 0;
             rb.linearVelocity = new Vector2(dashPower*direction , 0);

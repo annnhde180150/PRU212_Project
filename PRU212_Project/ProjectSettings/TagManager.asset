@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - GameOver
+  - Coin
   layers:
   - Default
   - TransparentFX
@@ -53,6 +54,9 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 3082554461
+    locked: 0
+  - name: Coin
+    uniqueID: 1234458027
     locked: 0
   - name: Player
     uniqueID: 1497628821
