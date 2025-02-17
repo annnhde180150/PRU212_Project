@@ -43,14 +43,11 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private int dashCount = 0;
     private bool isDashing = false;
 
-    [Header("Map")]
-    public Collider2D platformCollider;
-    private GameOverScript GameOver;
+   
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        GameOver = FindObjectOfType<GameOverScript>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -178,14 +175,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         IswallJumping = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("GameOver"))
-        {
-            Debug.Log("Game Over");
-            GameOver.GameOver();
-        }
-    }
+    
 }
 
 
