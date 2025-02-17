@@ -2219,7 +2219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f8505aafb2ae14da3f38e679a63c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1279272290}
+  animator: {fileID: 1279272298}
   wallCheckpos: {fileID: 826682273}
   wallLayer:
     serializedVersion: 2
@@ -2239,36 +2239,11 @@ MonoBehaviour:
   dashTime: 0.2
   dashCooldown: 1
   tr: {fileID: 1279272294}
-  platformCollider: {fileID: 1535881397}
 --- !u!4 &1279272286 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7137139482695797508, guid: bf098975534e0344fa081e3714213e6d, type: 3}
   m_PrefabInstance: {fileID: 132384757778781141}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1279272290
-Animator:
-  serializedVersion: 7
---- !u!114 &1279272287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279272277}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5a17d00adc1c1bd488592bc7f9d07f8f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!96 &1279272294
 TrailRenderer:
   serializedVersion: 3
@@ -2385,11 +2360,46 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 0
   m_ApplyActiveColorSpace: 1
+--- !u!58 &1279272295 stripped
+CircleCollider2D:
+  m_CorrespondingSourceObject: {fileID: 9053556205610707215, guid: bf098975534e0344fa081e3714213e6d, type: 3}
+  m_PrefabInstance: {fileID: 132384757778781141}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1279272298
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279272277}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5a17d00adc1c1bd488592bc7f9d07f8f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1279272299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279272277}
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa23576a80dea4448bbacbd61858dd0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformCollider: {fileID: 1535881397}
+  platformCollider: {fileID: 1279272295}
 --- !u!1 &1350998279
 GameObject:
   m_ObjectHideFlags: 0
@@ -3878,7 +3888,7 @@ Tilemap:
       - {fileID: 21300000, guid: fbc251e7a3f2a432ab69caef40c0edc9, type: 3}
       - {fileID: 21300000, guid: 658ad0f09bbb147f9a23271d119d91b3, type: 3}
       - {fileID: 21300000, guid: 7b8fc1fe2873a48cfb18db6093c125ac, type: 3}
-      m_AnimationSpeed: 6
+      m_AnimationSpeed: 6.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 3, y: 1, z: 0}
@@ -3908,7 +3918,7 @@ Tilemap:
       - {fileID: 21300000, guid: fbc251e7a3f2a432ab69caef40c0edc9, type: 3}
       - {fileID: 21300000, guid: 658ad0f09bbb147f9a23271d119d91b3, type: 3}
       - {fileID: 21300000, guid: 7b8fc1fe2873a48cfb18db6093c125ac, type: 3}
-      m_AnimationSpeed: 6.0000005
+      m_AnimationSpeed: 6
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 27, y: 1, z: 0}
@@ -3918,7 +3928,7 @@ Tilemap:
       - {fileID: 21300000, guid: fbc251e7a3f2a432ab69caef40c0edc9, type: 3}
       - {fileID: 21300000, guid: 658ad0f09bbb147f9a23271d119d91b3, type: 3}
       - {fileID: 21300000, guid: 7b8fc1fe2873a48cfb18db6093c125ac, type: 3}
-      m_AnimationSpeed: 6.0000005
+      m_AnimationSpeed: 6
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 35, y: 1, z: 0}
@@ -3928,7 +3938,7 @@ Tilemap:
       - {fileID: 21300000, guid: fbc251e7a3f2a432ab69caef40c0edc9, type: 3}
       - {fileID: 21300000, guid: 658ad0f09bbb147f9a23271d119d91b3, type: 3}
       - {fileID: 21300000, guid: 7b8fc1fe2873a48cfb18db6093c125ac, type: 3}
-      m_AnimationSpeed: 6.0000005
+      m_AnimationSpeed: 6
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 43, y: 1, z: 0}
@@ -3938,7 +3948,7 @@ Tilemap:
       - {fileID: 21300000, guid: fbc251e7a3f2a432ab69caef40c0edc9, type: 3}
       - {fileID: 21300000, guid: 658ad0f09bbb147f9a23271d119d91b3, type: 3}
       - {fileID: 21300000, guid: 7b8fc1fe2873a48cfb18db6093c125ac, type: 3}
-      m_AnimationSpeed: 6
+      m_AnimationSpeed: 6.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 51, y: 1, z: 0}
@@ -5318,11 +5328,13 @@ PrefabInstance:
       addedObject: {fileID: 1279272282}
     - targetCorrespondingSourceObject: {fileID: 13251588226338842, guid: bf098975534e0344fa081e3714213e6d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1279272290}
+      addedObject: {fileID: 1279272294}
     - targetCorrespondingSourceObject: {fileID: 13251588226338842, guid: bf098975534e0344fa081e3714213e6d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1279272294}
-      addedObject: {fileID: 1279272287}
+      addedObject: {fileID: 1279272298}
+    - targetCorrespondingSourceObject: {fileID: 13251588226338842, guid: bf098975534e0344fa081e3714213e6d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1279272299}
   m_SourcePrefab: {fileID: 100100000, guid: bf098975534e0344fa081e3714213e6d, type: 3}
 --- !u!50 &1082097632469841825
 Rigidbody2D:
