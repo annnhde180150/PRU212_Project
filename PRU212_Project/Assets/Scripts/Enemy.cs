@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] public float damage = 1f;
     [SerializeField] public float speed = 5f;
     [SerializeField] public Transform rangeObject;
+    protected bool canTurn = true;
     protected float range;
     protected int direction = 1;
     protected Rigidbody2D rb;
@@ -20,6 +21,7 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spawnPosition = transform.position;
         range = rangeObject.localScale.x/2f;
+        range -= 0.1f;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -43,5 +45,10 @@ public class Enemy : MonoBehaviour
     protected void Move(int direction)
     {
         rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
+    }
+
+    protected void checkRange()
+    {
+        isRangeReached = rb.position.x > spawnPosition.x + range || rb.position.x < spawnPosition.x - range;
     }
 }

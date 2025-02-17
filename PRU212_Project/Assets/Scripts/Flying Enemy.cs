@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class WalkingEnemy : Enemy
+public class FlyingEnemy : Enemy
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         direction = 1;
+        rb.gravityScale = 0;
     }
 
     // Update is called once per frame
@@ -26,6 +24,4 @@ public class WalkingEnemy : Enemy
         }
         Move(direction);
     }
-
-
 }
