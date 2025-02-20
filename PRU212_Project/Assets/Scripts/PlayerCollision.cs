@@ -10,10 +10,23 @@ public class PlayerCollision : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Coin"))
-            {
-                Destroy(collision.gameObject);
-                gameManager.addScore(1);
-                Debug.Log("Hit coin");
-            }
+        {
+            Destroy(collision.gameObject);
+            gameManager.addScore(1);
+            Debug.Log("Hit coin");
+        }
+        if(collision.CompareTag("Enemy"))
+        {
+            Debug.Log("Hit enemy");
+            var enemy = collision.GetComponent<Enemy>();
+            enemy.isStunned = true;
+            //gameManager.addScore(-1);
+            //enemy.Die();
+        }
+    }
+
+    private void dropCoin()
+    {
+
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GameOver
   - Coin
+  - Enemy
   layers:
   - Default
   - TransparentFX
