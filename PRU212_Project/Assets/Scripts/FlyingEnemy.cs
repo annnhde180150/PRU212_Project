@@ -22,6 +22,8 @@ public class FlyingEnemy : Enemy
         {
             canTurn = true;
         }
+        if (isDead) StartCoroutine(Respawn());
+        if(isStunned) StartCoroutine(Stunt());
         Move(direction);
     }
 }

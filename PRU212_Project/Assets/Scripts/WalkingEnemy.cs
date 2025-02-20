@@ -6,6 +6,7 @@ public class WalkingEnemy : Enemy
     void Start()
     {
         direction = 1;
+        rb.gravityScale = 0;
     }
 
     // Update is called once per frame
@@ -21,6 +22,8 @@ public class WalkingEnemy : Enemy
         {
             canTurn = true;
         }
+        if(isDead) StartCoroutine(Respawn());
+        if (isStunned) StartCoroutine(Stunt());
         Move(direction);
     }
 }
