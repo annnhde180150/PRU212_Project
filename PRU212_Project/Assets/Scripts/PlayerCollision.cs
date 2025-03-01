@@ -15,10 +15,22 @@ public class PlayerCollision : MonoBehaviour
             gameManager.addScore(1);
             Debug.Log("Hit coin");
         }
-        if(collision.CompareTag("Enemy"))
+        //if(collision.CompareTag("Enemy"))
+        //{
+        //    Debug.Log("Hit enemy");
+        //    var enemy = collision.GetComponent<Enemy>();
+        //    enemy.isStunned = true;
+        //    //gameManager.addScore(-1);
+        //    //enemy.Die();
+        //}
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Enemy"))
         {
             Debug.Log("Hit enemy");
-            var enemy = collision.GetComponent<Enemy>();
+            var enemy = collision.collider.GetComponentInParent<Enemy>() ?? collision.collider.GetComponent<Enemy>();
             enemy.isStunned = true;
             //gameManager.addScore(-1);
             //enemy.Die();

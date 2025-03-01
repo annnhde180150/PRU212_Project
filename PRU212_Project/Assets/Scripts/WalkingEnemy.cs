@@ -6,7 +6,7 @@ public class WalkingEnemy : Enemy
     void Start()
     {
         direction = 1;
-        rb.gravityScale = 0;
+        //rb.gravityScale = 0;
     }
 
     // Update is called once per frame
