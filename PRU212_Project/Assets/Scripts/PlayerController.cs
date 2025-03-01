@@ -48,7 +48,14 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private int dashCount = 0;
     private bool isDashing = false;
 
-   
+    [Header("PlayerSpecialAttack")]
+    [SerializeField] private float specialAttackPower = 10f;
+    [SerializeField] private float specialAttackTime = 1f;
+    [SerializeField] private float specialAttackCooldown = 1f; 
+    private float specialAttackCountdown = 0;
+    private int specialAttackCount = 0;
+    private bool isSpecialAttack = false;
+
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
@@ -71,7 +78,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
             wallSlide();           
             WallJump();
             StartCoroutine(Dash());
-            
+            StartCoroutine(SpecialAttack());          
         }
     }
 
@@ -93,19 +100,19 @@ public class NewMonoBehaviourScript : MonoBehaviour
         {
             rb.AddForce(new Vector2(airMovementSpeed* x,0),ForceMode2D.Force);            
             rb.linearVelocity = new Vector2(Mathf.Clamp(rb.linearVelocity.x, -moveSpeed, moveSpeed), rb.linearVelocity.y);           
-        }
-
-       
-
+        }     
         return;            
     }
 
     private void Jump()
     {
-        animator.SetBool("IsJump", true);
-        if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Vertical")) && JumpCount++ < maxJump - 1 && !isWallSliding)
-        {                    
+        //animator.SetBool("IsJump", true);
+        if ((Input.GetButtonDown("Jump")) && JumpCount < maxJump -1 && !isWallSliding)
+        {
+            
+            JumpCount = Mathf.Clamp(JumpCount + 1, 0, maxJump);
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            
         }       
     } 
     private void CheckGrounded()
@@ -113,8 +120,14 @@ public class NewMonoBehaviourScript : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
         if (isGrounded)
         {
-            animator.SetBool("IsJump", false);
+            animator.SetBool("IsSpecialAttackFinish", true);
+            animator.SetBool("IsJumpFinish", true);
             JumpCount = 0;
+        }
+        else
+        {
+            animator.SetBool("IsJumpFinish", false);
+            animator.SetTrigger("IsJumpTrigger");
         }
     }
 
@@ -124,11 +137,13 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
         if (!isGrounded && isTouchingWall && rb.linearVelocityY < 0)
         {
+            JumpCount = 0;
             animator.SetBool("IsWallAni", true);
             isWallSliding = true;                     
         }
         else
         {
+            
             animator.SetBool("IsWallAni", false);
             isWallSliding = false;
         }
@@ -144,8 +159,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     {
         if (isWallSliding)
         {
-            IswallJumping = false;
-            JumpCount = 0;
+            IswallJumping = false;          
             wallJumpingCounter = wallJumpingTime;
             CancelInvoke(nameof(StopWallJumping));
         }
@@ -157,12 +171,12 @@ public class NewMonoBehaviourScript : MonoBehaviour
         {
             Debug.Log("WallJump");
             IswallJumping = true;
-            animator.SetBool("IsJump", true);
+            animator.SetTrigger("IsJumpTrigger");
             rb.linearVelocity = new Vector2(wallJumpingForce.x * -direction, wallJumpingForce.y);           
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
         }
     }
-        private IEnumerator Dash()
+    private IEnumerator Dash()
     {
         dashCountdown += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashCount <1 && dashCountdown >= dashCooldown)
@@ -172,19 +186,69 @@ public class NewMonoBehaviourScript : MonoBehaviour
             isDashing = true;
             float originalGravity = rb.gravityScale;
             rb.gravityScale = 0;
-            rb.linearVelocity = new Vector2(dashPower*direction , 0);
+            if (((Input.GetKey(KeyCode.UpArrow)) && (Input.GetKey(KeyCode.RightArrow))) || ((Input.GetKey(KeyCode.UpArrow)) && (Input.GetKey(KeyCode.LeftArrow))))
+            {
+                float dashAngle = 45f * Mathf.Deg2Rad;
+                rb.linearVelocity = new Vector2(dashPower * direction, dashPower * Mathf.Sin(dashAngle));
+                
+            }
+            else
+            {
+               rb.linearVelocity = new Vector2(dashPower * direction, 0);
+            }              
             tr.emitting = true;
-            animator.SetBool("IsRoll", true);
-            animator.SetBool("IsJump", false);
+            animator.SetBool("IsRollFinish", false);
+            animator.SetTrigger("IsRollTrigger");          
             yield return new WaitForSeconds(dashTime);
-            rb.gravityScale = originalGravity;
-            animator.SetBool("IsJump", true);
-            animator.SetBool("IsRoll", false);
+            rb.gravityScale = originalGravity;           
+            animator.SetBool("IsRollFinish", true);
             isDashing = false;
             tr.emitting = false;
-        }
-        if(isGrounded || isTouchingWall) dashCount = 0;
+        }              
+        if (isGrounded || isTouchingWall) dashCount = 0;
     } 
+
+    private IEnumerator SpecialAttack()
+    {
+        specialAttackCountdown += Time.deltaTime;
+        //
+        if (Input.GetKeyDown(KeyCode.LeftControl)&& !isGrounded  && specialAttackCount < 1 && specialAttackCountdown >= specialAttackCooldown)
+        {           
+            specialAttackCountdown = 0;
+            specialAttackCount++;
+            isSpecialAttack = true;                                          
+            animator.SetBool("IsSpecialAttackFinish", false);           
+            animator.SetTrigger("IsSpecialAttackTrigger");
+                     
+            if (((Input.GetKey(KeyCode.UpArrow)) && (Input.GetKey(KeyCode.RightArrow))) || ((Input.GetKey(KeyCode.UpArrow)) && (Input.GetKey(KeyCode.LeftArrow))))
+            {
+                float AttackAngle = 45f * Mathf.Deg2Rad;
+                rb.linearVelocity = new Vector2(specialAttackPower * direction, AttackAngle * specialAttackPower);
+            }
+
+            if (((Input.GetKey(KeyCode.DownArrow)) && (Input.GetKey(KeyCode.RightArrow))) || ((Input.GetKey(KeyCode.DownArrow)) && (Input.GetKey(KeyCode.LeftArrow))))
+            {
+                float AttackAngle = 135f * Mathf.Deg2Rad;
+                rb.linearVelocity = new Vector2(specialAttackPower * direction, AttackAngle * specialAttackPower);
+            }
+
+            if ((Input.GetKey(KeyCode.DownArrow)))
+            {
+                rb.linearVelocity = new Vector2(specialAttackPower * direction, -specialAttackPower);
+            }
+
+            if ((Input.GetKey(KeyCode.UpArrow)))
+            {
+                rb.linearVelocity = new Vector2(specialAttackPower * direction, specialAttackPower);
+            }
+
+            yield return new WaitForSeconds(specialAttackTime);                       
+            animator.SetBool("IsSpecialAttackFinish", true);                              
+            isSpecialAttack = false;           
+
+        }
+        if (isGrounded || isTouchingWall) specialAttackCount = 0;
+    }
     private void StopWallJumping()
     {
         IswallJumping = false;
