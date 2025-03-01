@@ -7,7 +7,7 @@ public class GameOverScript : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
     private bool isGameOver = false;
     public GameObject player;
-    void Start()
+    void Awake()
     {
         gameOverPanel.SetActive(false);
     }
@@ -32,6 +32,7 @@ public class GameOverScript : MonoBehaviour
 
         player.transform.position = PlayerManager.lastCheckPointPos;
         gameOverPanel.SetActive(false);
+        Debug.Log("Load Checkpoint");
     }
     public void RestartGame()
     {
@@ -44,7 +45,7 @@ public class GameOverScript : MonoBehaviour
     {
         isGameOver = false;
         Time.timeScale = 1;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu");
     }
    
 }
