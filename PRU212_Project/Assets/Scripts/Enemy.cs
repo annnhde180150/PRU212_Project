@@ -9,17 +9,27 @@ public class Enemy : MonoBehaviour
     [SerializeField] public float damage = 1f;
     [SerializeField] public float speed = 5f;
     [SerializeField] public Transform rangeObject;
-    [SerializeField] public float RespawmTime = 5f;
     [SerializeField] public float StuntTime = 3f;
     [SerializeField] public Animator animation;
     public bool isDead = false;
     public bool isStunned = false;
+    private bool isStunning = false;
     protected bool canTurn = true;
     protected float range;
     protected int direction = 1;
     protected Rigidbody2D rb;
-    protected Vector3 spawnPosition;
+    public Vector3 spawnPosition;
     protected bool isRangeReached;
+
+    [Header("Audio")]
+    [SerializeField] public AudioClip deathSound;
+    [SerializeField] public AudioClip stunSound;
+    protected AudioSource audioSource;
+
+    [Header("Spawning")]
+    [SerializeField] protected EnemySpawner enemySpawner;
+    [SerializeField] public float RespawmTime = 5f;
+
 
     private void Awake()
     {
@@ -27,6 +37,7 @@ public class Enemy : MonoBehaviour
         spawnPosition = transform.position;
         range = rangeObject.localScale.x / 2f;
         range -= 0.1f;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -58,29 +69,27 @@ public class Enemy : MonoBehaviour
         isRangeReached = rb.position.x > spawnPosition.x + range || rb.position.x < spawnPosition.x - range;
     }
 
-    public void Die()
+    public IEnumerator Die(string type)
     {
-        isDead = true;
-        rb.GetComponent<Collider2D>().enabled = false;
-        rb.GetComponent<SpriteRenderer>().enabled = false;
-    }
-
-    protected IEnumerator Respawn()
-    {
-        yield return new WaitForSeconds(RespawmTime);
-        transform.position = spawnPosition;
-        isDead = false;
-        rb.GetComponent<Collider2D>().enabled = true;
-        rb.GetComponent<SpriteRenderer>().enabled = true;
+        enemySpawner = GetComponentInParent<EnemySpawner>();
+        audioSource.PlayOneShot(deathSound);
+        rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
+        yield return new WaitForSeconds(deathSound.length);
+        enemySpawner.reSpawn(type, spawnPosition, RespawmTime);
+        Destroy(gameObject);
     }
 
     protected IEnumerator Stunt()
     {
-        isStunned = true;
-        rb.linearVelocity = new Vector2(0, 0);
+        if (isStunning) yield break;
+
+        audioSource.PlayOneShot(stunSound);
+        isStunning = true;
+        rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
         animation.SetBool("isStunt", true);
         yield return new WaitForSeconds(StuntTime);
         isStunned = false;
+        isStunning = false;
         animation.SetBool("isStunt", false);
     }
 }

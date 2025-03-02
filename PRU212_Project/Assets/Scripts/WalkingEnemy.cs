@@ -22,8 +22,8 @@ public class WalkingEnemy : Enemy
         {
             canTurn = true;
         }
-        if(isDead) StartCoroutine(Respawn());
         if (isStunned) StartCoroutine(Stunt());
+        if (isDead) StartCoroutine(Die("Walking"));
         Move(direction);
     }
 }
