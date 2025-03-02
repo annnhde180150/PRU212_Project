@@ -22,7 +22,7 @@ public class CheckPointScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("CheckPoint Reached");
+            //Debug.Log("CheckPoint Reached");
             PlayerManager.lastCheckPointPos = transform.position; 
         }
     }

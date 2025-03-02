@@ -3,7 +3,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Animation")]
     [SerializeField] public Animator animator;
@@ -46,7 +46,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     [SerializeField] private TrailRenderer tr;
     private float dashCountdown = 0;
     private int dashCount = 0;
-    private bool isDashing = false;
+    public bool isDashing = false;
 
     [Header("PlayerSpecialAttack")]
     [SerializeField] private float specialAttackPower = 10f;
