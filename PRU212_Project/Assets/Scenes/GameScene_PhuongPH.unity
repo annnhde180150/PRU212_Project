@@ -405,6 +405,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 143787682}
+  - component: {fileID: 143787683}
   m_Layer: 0
   m_Name: Enemies
   m_TagString: Untagged
@@ -432,6 +433,21 @@ Transform:
   - {fileID: 5277964744851116030}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &143787683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143787681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4badbd45dc209aa42a3f8524f1137502, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies:
+  - {fileID: 4825211526147351200, guid: d1f7c04c0af5b3f4da0845d8a48e4a41, type: 3}
+  - {fileID: 7259079036550328282, guid: ab14e50296e309f428df25bd1c3809cc, type: 3}
 --- !u!1 &151594792
 GameObject:
   m_ObjectHideFlags: 0
@@ -5668,7 +5684,7 @@ Tilemap:
       - {fileID: 21300000, guid: fbc251e7a3f2a432ab69caef40c0edc9, type: 3}
       - {fileID: 21300000, guid: 658ad0f09bbb147f9a23271d119d91b3, type: 3}
       - {fileID: 21300000, guid: 7b8fc1fe2873a48cfb18db6093c125ac, type: 3}
-      m_AnimationSpeed: 6
+      m_AnimationSpeed: 6.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 43, y: 1, z: 0}
@@ -7631,29 +7647,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 143787682}
     m_Modifications:
-    - target: {fileID: 365768740907379022, guid: d1f7c04c0af5b3f4da0845d8a48e4a41, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1953682359981695248, guid: d1f7c04c0af5b3f4da0845d8a48e4a41, type: 3}
-      propertyPath: m_Radius
-      value: 0.6913501
-      objectReference: {fileID: 0}
-    - target: {fileID: 1953682359981695248, guid: d1f7c04c0af5b3f4da0845d8a48e4a41, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.058649898
+    - target: {fileID: 3938422177858812440, guid: d1f7c04c0af5b3f4da0845d8a48e4a41, type: 3}
+      propertyPath: RespawmTime
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4825211526147351200, guid: d1f7c04c0af5b3f4da0845d8a48e4a41, type: 3}
       propertyPath: m_Name
       value: FlyingE
       objectReference: {fileID: 0}
+    - target: {fileID: 7158753354090638639, guid: d1f7c04c0af5b3f4da0845d8a48e4a41, type: 3}
+      propertyPath: m_Name
+      value: FlyingEnemyHead
+      objectReference: {fileID: 0}
     - target: {fileID: 7744912511970689446, guid: d1f7c04c0af5b3f4da0845d8a48e4a41, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.8515816
+      value: -13.795
       objectReference: {fileID: 0}
     - target: {fileID: 7744912511970689446, guid: d1f7c04c0af5b3f4da0845d8a48e4a41, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.245889
+      value: -11.222
       objectReference: {fileID: 0}
     - target: {fileID: 7744912511970689446, guid: d1f7c04c0af5b3f4da0845d8a48e4a41, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7755,11 +7767,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 205864014679751139, guid: ab14e50296e309f428df25bd1c3809cc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.28
+      value: -3.271
       objectReference: {fileID: 0}
     - target: {fileID: 205864014679751139, guid: ab14e50296e309f428df25bd1c3809cc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12.28
+      value: -12.276
       objectReference: {fileID: 0}
     - target: {fileID: 205864014679751139, guid: ab14e50296e309f428df25bd1c3809cc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7793,24 +7805,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6840872339662782804, guid: ab14e50296e309f428df25bd1c3809cc, type: 3}
-      propertyPath: m_Radius
-      value: 0.52892935
-      objectReference: {fileID: 0}
-    - target: {fileID: 6840872339662782804, guid: ab14e50296e309f428df25bd1c3809cc, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.17822015
-      objectReference: {fileID: 0}
-    - target: {fileID: 6854322773321679895, guid: ab14e50296e309f428df25bd1c3809cc, type: 3}
-      propertyPath: m_Constraints
-      value: 4
+    - target: {fileID: 1674843373231503809, guid: ab14e50296e309f428df25bd1c3809cc, type: 3}
+      propertyPath: m_Name
+      value: WalkingEnemyHead
       objectReference: {fileID: 0}
     - target: {fileID: 7259079036550328282, guid: ab14e50296e309f428df25bd1c3809cc, type: 3}
       propertyPath: m_Name
       value: WalkingE
       objectReference: {fileID: 0}
     - target: {fileID: 9138436457134066043, guid: ab14e50296e309f428df25bd1c3809cc, type: 3}
-      propertyPath: StuntTime
+      propertyPath: RespawmTime
       value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
