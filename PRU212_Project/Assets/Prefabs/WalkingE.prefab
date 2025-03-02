@@ -362,9 +362,11 @@ MonoBehaviour:
   animation: {fileID: 1991671495718943529}
   isDead: 0
   isStunned: 0
-  spawnPosition: {x: 23.13158, y: 1.3558888, z: 0}
+  spawnPosition: {x: 3.2615814, y: -2.8141108, z: 0}
+  type: 
   deathSound: {fileID: 8300000, guid: 328763bc966b64b91bd57907bd828b53, type: 3}
   stunSound: {fileID: 8300000, guid: 6093d815c94e8b34fa861240895ce49f, type: 3}
+  audioSource: {fileID: 0}
   enemySpawner: {fileID: 0}
   RespawmTime: 3
 --- !u!95 &1991671495718943529
