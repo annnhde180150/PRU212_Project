@@ -7,10 +7,11 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Animation")]
     [SerializeField] public Animator animator;
+    private Animator animatorLanding;
+    private bool islanding;
 
     [Header("WallCheck")]
     [SerializeField] public Transform wallCheckpos;  
-
     [SerializeField] public LayerMask wallLayer;
 
     [Header("WallMovement")]
@@ -63,17 +64,23 @@ public class PlayerController : MonoBehaviour
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
-    {    
-
+    {
+        Transform child = transform.Find("LandingObject");
+        Debug.Log(child.name);
+        if (child != null)
+        {
+            animatorLanding = child.GetComponent<Animator>();         
+        }       
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (!isDashing)
         {
-            Move();          
-            Jump();
+            Move();  
+            Jump();          
             CheckGrounded();
             wallSlide();           
             WallJump();
@@ -110,10 +117,11 @@ public class PlayerController : MonoBehaviour
         if ((Input.GetButtonDown("Jump")) && JumpCount < maxJump -1 && !isWallSliding)
         {
             
+            //animatorLanding.SetTrigger("JumpDustTrigger");
             JumpCount = Mathf.Clamp(JumpCount + 1, 0, maxJump);
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            
-        }       
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);                    
+        }
+        
     } 
     private void CheckGrounded()
     {
@@ -123,11 +131,23 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsSpecialAttackFinish", true);
             animator.SetBool("IsJumpFinish", true);
             JumpCount = 0;
+            if (isSpecialAttack)
+            {               
+                animatorLanding.SetTrigger("StompDustTrigger");
+            }
+            
         }
         else
         {
-            animator.SetBool("IsJumpFinish", false);
+            animator.SetBool("IsJumpFinish", false);           
             animator.SetTrigger("IsJumpTrigger");
+            islanding = true;
+        }
+
+        if (islanding && isGrounded && !isSpecialAttack)
+        {
+            animatorLanding.SetTrigger("LandDustTrigger");
+            islanding = false;
         }
     }
 
@@ -137,43 +157,31 @@ public class PlayerController : MonoBehaviour
 
         if (!isGrounded && isTouchingWall && rb.linearVelocityY < 0)
         {
-            JumpCount = 0;
+            
             animator.SetBool("IsWallAni", true);
             isWallSliding = true;                     
         }
         else
-        {
-            
+        {        
             animator.SetBool("IsWallAni", false);
             isWallSliding = false;
         }
 
         if (isWallSliding)
         {
-            
+            JumpCount = 0;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, -wallSlideSpeed);
         }
     }
 
     public void WallJump()
     {
-        if (isWallSliding)
-        {
-            IswallJumping = false;          
-            wallJumpingCounter = wallJumpingTime;
-            CancelInvoke(nameof(StopWallJumping));
-        }
-        else
-        {
-            wallJumpingCounter -= Time.deltaTime;
-        }
         if (Input.GetButtonDown("Jump") && isWallSliding)
         {
             Debug.Log("WallJump");
             IswallJumping = true;
             animator.SetTrigger("IsJumpTrigger");
-            rb.linearVelocity = new Vector2(wallJumpingForce.x * -direction, wallJumpingForce.y);           
-            Invoke(nameof(StopWallJumping), wallJumpingDuration);
+            rb.linearVelocity = new Vector2(wallJumpingForce.x * -direction, wallJumpingForce.y);                      
         }
     }
     private IEnumerator Dash()
@@ -218,30 +226,8 @@ public class PlayerController : MonoBehaviour
             specialAttackCount++;
             isSpecialAttack = true;                                          
             animator.SetBool("IsSpecialAttackFinish", false);           
-            animator.SetTrigger("IsSpecialAttackTrigger");
-                     
-            if (((Input.GetKey(KeyCode.UpArrow)) && (Input.GetKey(KeyCode.RightArrow))) || ((Input.GetKey(KeyCode.UpArrow)) && (Input.GetKey(KeyCode.LeftArrow))))
-            {
-                float AttackAngle = 45f * Mathf.Deg2Rad;
-                rb.linearVelocity = new Vector2(specialAttackPower * direction, AttackAngle * specialAttackPower);
-            }
-
-            if (((Input.GetKey(KeyCode.DownArrow)) && (Input.GetKey(KeyCode.RightArrow))) || ((Input.GetKey(KeyCode.DownArrow)) && (Input.GetKey(KeyCode.LeftArrow))))
-            {
-                float AttackAngle = 135f * Mathf.Deg2Rad;
-                rb.linearVelocity = new Vector2(specialAttackPower * direction, AttackAngle * specialAttackPower);
-            }
-
-            if ((Input.GetKey(KeyCode.DownArrow)))
-            {
-                rb.linearVelocity = new Vector2(specialAttackPower * direction, -specialAttackPower);
-            }
-
-            if ((Input.GetKey(KeyCode.UpArrow)))
-            {
-                rb.linearVelocity = new Vector2(specialAttackPower * direction, specialAttackPower);
-            }
-
+            animator.SetTrigger("IsSpecialAttackTrigger");                                           
+            rb.linearVelocity = new Vector2(0, -specialAttackPower);                      
             yield return new WaitForSeconds(specialAttackTime);                       
             animator.SetBool("IsSpecialAttackFinish", true);                              
             isSpecialAttack = false;           
