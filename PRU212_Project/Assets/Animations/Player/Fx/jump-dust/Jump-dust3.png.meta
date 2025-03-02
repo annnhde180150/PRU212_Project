@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: ca1ae0b1d4a184e68b445800f56ab8e3
+guid: aa58e6126e969499cb75e95778ea7723
 AssetOrigin:
   serializedVersion: 1
   productId: 195244
   packageName: Stomper Platform Assets
   packageVersion: 1.0
-  assetPath: Assets/Stomper Artwork/PixelArt/Misc/Fx/land-dust/land-dust1.png
+  assetPath: Assets/Stomper Artwork/PixelArt/Misc/Fx/jump-dust/Jump-dust3.png
   uploadId: 433025
 TextureImporter:
   internalIDToNameTable: []
@@ -55,7 +55,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
