@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour
 
     protected void Move(int direction)
     {
-        if(!isStunned)
+        if(!isStunned && !isDead)
             rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
     }
 
@@ -75,6 +75,8 @@ public class Enemy : MonoBehaviour
     {
         if (isDying) yield break;
 
+        animation.SetBool("isStunt", true);
+        rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
         isDying = true;
         enemySpawner = GetComponentInParent<EnemySpawner>();
         audioSource.PlayOneShot(deathSound);

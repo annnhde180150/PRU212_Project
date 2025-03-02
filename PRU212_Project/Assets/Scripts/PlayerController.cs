@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float specialAttackCooldown = 1f; 
     private float specialAttackCountdown = 0;
     private int specialAttackCount = 0;
-    private bool isSpecialAttack = false;
+    public bool isSpecialAttack = false;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
