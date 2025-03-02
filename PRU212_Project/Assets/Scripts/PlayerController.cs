@@ -7,7 +7,9 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Animation")]
     [SerializeField] public Animator animator;
-    private Animator animatorLanding;
+    [SerializeField] public GameObject landingAnimation;
+    [SerializeField] public Transform animationPoint;
+    private Animator dustAnimator;
     private bool islanding;
 
     [Header("WallCheck")]
@@ -65,18 +67,14 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Transform child = transform.Find("LandingObject");
-        Debug.Log(child.name);
-        if (child != null)
-        {
-            animatorLanding = child.GetComponent<Animator>();         
-        }       
+        
+        
+         
     }
 
     // Update is called once per frame
     void Update()
-    {
-        
+    {       
         if (!isDashing)
         {
             Move();  
@@ -87,6 +85,18 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Dash());
             StartCoroutine(SpecialAttack());          
         }
+    }
+
+    //Create dust when player jump, land
+    private void CreateDust(string triggerName)
+    {
+        GameObject playerDust = Instantiate(landingAnimation, animationPoint.position, Quaternion.identity);  
+        dustAnimator = playerDust.GetComponent<Animator>();
+        if (dustAnimator != null)
+        {
+            dustAnimator.SetTrigger(triggerName);
+        }
+        Destroy(playerDust, 0.5f);
     }
 
     //movement function
@@ -116,8 +126,7 @@ public class PlayerController : MonoBehaviour
         //animator.SetBool("IsJump", true);
         if ((Input.GetButtonDown("Jump")) && JumpCount < maxJump -1 && !isWallSliding)
         {
-            
-            //animatorLanding.SetTrigger("JumpDustTrigger");
+            CreateDust("JumpDustTrigger");            
             JumpCount = Mathf.Clamp(JumpCount + 1, 0, maxJump);
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);                    
         }
@@ -131,10 +140,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsSpecialAttackFinish", true);
             animator.SetBool("IsJumpFinish", true);
             JumpCount = 0;
-            if (isSpecialAttack)
-            {               
-                animatorLanding.SetTrigger("StompDustTrigger");
-            }
+            Debug.Log(isSpecialAttack);          
             
         }
         else
@@ -144,9 +150,15 @@ public class PlayerController : MonoBehaviour
             islanding = true;
         }
 
+        if (isSpecialAttack && isGrounded)
+        {
+            CreateDust("StompDustTrigger");
+            isSpecialAttack = false;
+        }
+
         if (islanding && isGrounded && !isSpecialAttack)
         {
-            animatorLanding.SetTrigger("LandDustTrigger");
+            CreateDust("LandDustTrigger");           
             islanding = false;
         }
     }
