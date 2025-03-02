@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(spawn(type, position, time));
     }
 
-    private IEnumerator spawn(string type, Vector3 position, float time)
+    public IEnumerator spawn(string type, Vector3 position, float time)
     {
         GameObject enemy = null;
         var spawnPosition = position;

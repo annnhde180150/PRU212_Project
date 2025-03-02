@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] public float StuntTime = 3f;
     [SerializeField] public Animator animation;
     public bool isDead = false;
+    private bool isDying = false;
     public bool isStunned = false;
     private bool isStunning = false;
     protected bool canTurn = true;
@@ -20,11 +21,12 @@ public class Enemy : MonoBehaviour
     protected Rigidbody2D rb;
     public Vector3 spawnPosition;
     protected bool isRangeReached;
+    public string type;
 
     [Header("Audio")]
     [SerializeField] public AudioClip deathSound;
     [SerializeField] public AudioClip stunSound;
-    protected AudioSource audioSource;
+    public AudioSource audioSource;
 
     [Header("Spawning")]
     [SerializeField] protected EnemySpawner enemySpawner;
@@ -69,8 +71,11 @@ public class Enemy : MonoBehaviour
         isRangeReached = rb.position.x > spawnPosition.x + range || rb.position.x < spawnPosition.x - range;
     }
 
-    public IEnumerator Die(string type)
+    public IEnumerator Die()
     {
+        if (isDying) yield break;
+
+        isDying = true;
         enemySpawner = GetComponentInParent<EnemySpawner>();
         audioSource.PlayOneShot(deathSound);
         rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
@@ -91,5 +96,13 @@ public class Enemy : MonoBehaviour
         isStunned = false;
         isStunning = false;
         animation.SetBool("isStunt", false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("GameOver"))
+        {
+            StartCoroutine(Die());
+        }
     }
 }

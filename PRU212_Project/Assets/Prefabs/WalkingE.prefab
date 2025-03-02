@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0291, y: 0.247, z: 0}
-  m_LocalScale: {x: 0.44547927, y: 0.2535, z: 1}
+  m_LocalScale: {x: 0.76288325, y: 0.2535, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 205864014679751139}
@@ -161,7 +161,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.1875, y: 0.1, z: 1}
+  m_LocalScale: {x: 2.0101562, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 205864014679751139}
@@ -358,14 +358,15 @@ MonoBehaviour:
   damage: 1
   speed: 3
   rangeObject: {fileID: 5615922683645080698}
-  RespawmTime: 5
   StuntTime: 3
   animation: {fileID: 1991671495718943529}
   isDead: 0
   isStunned: 0
-  spawnPosition: {x: 0, y: 0, z: 0}
+  spawnPosition: {x: 23.13158, y: 1.3558888, z: 0}
   deathSound: {fileID: 8300000, guid: 328763bc966b64b91bd57907bd828b53, type: 3}
   stunSound: {fileID: 8300000, guid: 6093d815c94e8b34fa861240895ce49f, type: 3}
+  enemySpawner: {fileID: 0}
+  RespawmTime: 3
 --- !u!95 &1991671495718943529
 Animator:
   serializedVersion: 7
@@ -422,8 +423,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.17822015}
-  m_Radius: 0.52892935
+  m_Offset: {x: -0.018256485, y: -0.21734083}
+  m_Radius: 0.4715522
 --- !u!82 &8834556615945707203
 AudioSource:
   m_ObjectHideFlags: 0

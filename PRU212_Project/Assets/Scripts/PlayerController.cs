@@ -139,8 +139,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("IsSpecialAttackFinish", true);
             animator.SetBool("IsJumpFinish", true);
-            JumpCount = 0;
-            Debug.Log(isSpecialAttack);          
+            JumpCount = 0;     
             
         }
         else

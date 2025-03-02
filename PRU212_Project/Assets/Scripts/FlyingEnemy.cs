@@ -4,12 +4,13 @@ public class FlyingEnemy : Enemy
 {
     [Header("Flying Stats")]
     [SerializeField] public float flySpeed = 5f;
-    private float heightDiff = 0.5f;
+    [SerializeField] private float heightDiff = 0.5f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         direction = 1;
         rb.gravityScale = 0;
+        type = "Flying";
     }
 
     // Update is called once per frame
@@ -35,7 +36,7 @@ public class FlyingEnemy : Enemy
             rb.gravityScale = 0;
             flyingBack();
         }
-        if (isDead) StartCoroutine(Die("Flying"));
+        if (isDead) StartCoroutine(Die());
         Move(direction);
     }
 

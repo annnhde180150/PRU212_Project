@@ -28,8 +28,9 @@ public class PlayerCollision : MonoBehaviour
     {
         if (collision.collider.CompareTag("Enemy"))
         {
-            var enemy = collision.collider.GetComponent<Enemy>();
-            
+            //var enemy = collision.collider.GetComponent<Enemy>();
+            var gameOver = FindAnyObjectByType<GameOverScript>();
+            gameOver.GameOver();
             //gameManager.addScore(-1);
             //StartCoroutine(enemy.Die());
         }
