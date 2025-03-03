@@ -36,7 +36,11 @@ public class FlyingEnemy : Enemy
             rb.gravityScale = 0;
             flyingBack();
         }
-        if (isDead) StartCoroutine(Die());
+        if (isDead)
+        {
+            rb.gravityScale = 1;
+            StartCoroutine(Die());
+        }
         Move(direction);
     }
 
