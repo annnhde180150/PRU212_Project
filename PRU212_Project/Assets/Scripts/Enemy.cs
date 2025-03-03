@@ -32,6 +32,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected EnemySpawner enemySpawner;
     [SerializeField] public float RespawmTime = 5f;
 
+    [Header("Attack")]
+    [SerializeField] protected GameObject bullet;
+    [SerializeField] protected float shootingSpeed = 3f;
+    [SerializeField] protected float shotTimeDiff = 3f;
+    [SerializeField] protected int shootingDirection;
 
     private void Awake()
     {
@@ -82,7 +87,7 @@ public class Enemy : MonoBehaviour
         audioSource.PlayOneShot(deathSound);
         rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
         yield return new WaitForSeconds(deathSound.length);
-        enemySpawner.reSpawn(type, spawnPosition, RespawmTime);
+        enemySpawner.Respawn(type, spawnPosition, RespawmTime);
         Destroy(gameObject);
     }
 
@@ -106,5 +111,17 @@ public class Enemy : MonoBehaviour
         {
             StartCoroutine(Die());
         }
+    }
+
+    protected void Shoot()
+    {
+        if (isStunned || isDead) return;
+        var position = new Vector2(spawnPosition.x + shootingDirection * transform.localScale.x, spawnPosition.y);
+        var shootingBullet = Instantiate(bullet,spawnPosition,Quaternion.identity);
+        if (shootingDirection<0)
+        {
+            shootingBullet.transform.Rotate(0,180,0);
+        }
+        shootingBullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector2 (shootingSpeed*shootingDirection, rb.linearVelocityY);
     }
 }

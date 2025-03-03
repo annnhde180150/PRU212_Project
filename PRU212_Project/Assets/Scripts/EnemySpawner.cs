@@ -1,12 +1,24 @@
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject[] enemies;
+    [SerializeField]public GameObject[] enemies;
+    public string[] types;
+    public Vector3[] spawns;
+    private List<Coroutine> respawners = new List<Coroutine>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        types = new string[transform.childCount];
+        spawns = new Vector3[transform.childCount];
+        for (int i = 0; i < types.Length; i++)
+        {
+            types[i] = transform.GetChild(i).GetComponent<Enemy>().type;
+            spawns[i] = transform.GetChild(i).GetComponent<Enemy>().spawnPosition;
+        }
     }
 
     // Update is called once per frame
@@ -15,12 +27,19 @@ public class EnemySpawner : MonoBehaviour
 
     }
 
-    public void reSpawn(string type, Vector3 position, float time)
+    public void StopRespawning()
     {
-        StartCoroutine(spawn(type, position, time));
+        foreach(Coroutine coroutine in respawners) StopCoroutine(coroutine);
+        respawners.Clear();
     }
 
-    public IEnumerator spawn(string type, Vector3 position, float time)
+    public void Respawn(string type, Vector3 position, float time)
+    {
+        Coroutine newSpawn =  StartCoroutine(Spawn(type, position, time));
+        respawners.Add(newSpawn);
+    }
+
+    public IEnumerator Spawn(string type, Vector3 position, float time)
     {
         GameObject enemy = null;
         var spawnPosition = position;
@@ -31,6 +50,9 @@ public class EnemySpawner : MonoBehaviour
                 break;
             case "Walking":
                 enemy = enemies[1];
+                break;
+            case "Block":
+                enemy = enemies[2];
                 break;
             default:
                 break;

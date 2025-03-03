@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -30,20 +31,21 @@ public class GameOverScript : MonoBehaviour
     {
         isGameOver = false;
         Time.timeScale = 1;
-
         player.transform.position = PlayerManager.lastCheckPointPos;
         gameOverPanel.SetActive(false);
+
+        //respawn all monster
         var spawner = enemyManager.GetComponent<EnemySpawner>();
-        for (int i =0; i < enemyManager.transform.childCount; i++)
-        {
-            var enemy = enemyManager.transform.GetChild(i).GetComponent<Enemy>();
-            string type = enemy.type;
-            Vector3 position = enemy.spawnPosition;
-            Destroy(enemy.gameObject);
-            StartCoroutine(spawner.spawn(type, position, 0));
-        }
+        Debug.Log(spawner.types.Length);
+        foreach(Transform child in spawner.transform) 
+            Destroy(child.gameObject);
+        spawner.StopRespawning();
+        for (int i =0; i < spawner.types.Length; i++)
+            StartCoroutine(spawner.Spawn(spawner.types[i], spawner.spawns[i], 0));
+
         Debug.Log("Load Checkpoint");
     }
+
     public void RestartGame()
     {
         isGameOver = false;
