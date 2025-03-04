@@ -21,7 +21,7 @@ public class DestructibleScript : MonoBehaviour
         {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
-            if (player != null && player.isDashing) // Check if player is dashing
+            if (player != null && (player.isDashing || player.isSpecialAttack)) 
             {
                 // Get the tile position of the hit area
                 Vector3 hitPosition = collision.contacts[0].point; // Get the point of collision
