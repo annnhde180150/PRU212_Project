@@ -1,3 +1,4 @@
+using UnityEditor.Search;
 using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
@@ -37,8 +38,13 @@ public class PlayerCollision : MonoBehaviour
                 enemy.isDead = true;
                 //gameManager.addScore(1);
             }
-            else
-                if (!enemy.isDead) gameOver.GameOver();
+            //else if (!enemy.isDead) gameOver.GameOver();
+            else if (!enemy.isStunned)
+            { 
+                gameManager.DropCoins(collision.transform.position);
+                gameManager.addScore(-3);
+                Debug.Log("Hit enemy");
+            }
             //gameManager.addScore(-1);
             //StartCoroutine(enemy.Die());
         }
@@ -54,10 +60,5 @@ public class PlayerCollision : MonoBehaviour
                 enemy.isStunned = true;
             }
         }
-    }
-
-    private void dropCoin()
-    {
-
     }
 }
