@@ -6,6 +6,7 @@ public class WalkingEnemy : Enemy
     void Start()
     {
         direction = 1;
+        type = "Walking";
         //rb.gravityScale = 0;
     }
 
@@ -22,8 +23,8 @@ public class WalkingEnemy : Enemy
         {
             canTurn = true;
         }
-        if(isDead) StartCoroutine(Respawn());
         if (isStunned) StartCoroutine(Stunt());
+        if (isDead) StartCoroutine(Die());
         Move(direction);
     }
 }

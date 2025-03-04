@@ -9,17 +9,34 @@ public class Enemy : MonoBehaviour
     [SerializeField] public float damage = 1f;
     [SerializeField] public float speed = 5f;
     [SerializeField] public Transform rangeObject;
-    [SerializeField] public float RespawmTime = 5f;
     [SerializeField] public float StuntTime = 3f;
     [SerializeField] public Animator animation;
     public bool isDead = false;
+    private bool isDying = false;
     public bool isStunned = false;
+    private bool isStunning = false;
     protected bool canTurn = true;
-    protected float range;
+    public float range;
     protected int direction = 1;
     protected Rigidbody2D rb;
-    protected Vector3 spawnPosition;
+    public Vector3 spawnPosition;
     protected bool isRangeReached;
+    public string type;
+
+    [Header("Audio")]
+    [SerializeField] public AudioClip deathSound;
+    [SerializeField] public AudioClip stunSound;
+    public AudioSource audioSource;
+
+    [Header("Spawning")]
+    [SerializeField] protected EnemySpawner enemySpawner;
+    [SerializeField] public float RespawmTime = 5f;
+
+    [Header("Attack")]
+    [SerializeField] protected GameObject bullet;
+    [SerializeField] protected float shootingSpeed = 3f;
+    [SerializeField] protected float shotTimeDiff = 3f;
+    [SerializeField] protected int shootingDirection;
 
     private void Awake()
     {
@@ -27,6 +44,7 @@ public class Enemy : MonoBehaviour
         spawnPosition = transform.position;
         range = rangeObject.localScale.x / 2f;
         range -= 0.1f;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,7 +67,7 @@ public class Enemy : MonoBehaviour
 
     protected void Move(int direction)
     {
-        if(!isStunned)
+        if(!isStunned && !isDead)
             rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
     }
 
@@ -58,29 +76,52 @@ public class Enemy : MonoBehaviour
         isRangeReached = rb.position.x > spawnPosition.x + range || rb.position.x < spawnPosition.x - range;
     }
 
-    public void Die()
+    public IEnumerator Die()
     {
-        isDead = true;
-        rb.GetComponent<Collider2D>().enabled = false;
-        rb.GetComponent<SpriteRenderer>().enabled = false;
-    }
+        if (isDying) yield break;
 
-    protected IEnumerator Respawn()
-    {
-        yield return new WaitForSeconds(RespawmTime);
-        transform.position = spawnPosition;
-        isDead = false;
-        rb.GetComponent<Collider2D>().enabled = true;
-        rb.GetComponent<SpriteRenderer>().enabled = true;
+        animation.SetBool("isStunt", true);
+        rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
+        isDying = true;
+        enemySpawner = GetComponentInParent<EnemySpawner>();
+        audioSource.PlayOneShot(deathSound);
+        rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
+        yield return new WaitForSeconds(deathSound.length);
+        enemySpawner.Respawn(type, spawnPosition, RespawmTime, range);
+        Destroy(gameObject);
     }
 
     protected IEnumerator Stunt()
     {
-        isStunned = true;
-        rb.linearVelocity = new Vector2(0, 0);
+        if (isStunning) yield break;
+
+        audioSource.PlayOneShot(stunSound);
+        isStunning = true;
+        rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
         animation.SetBool("isStunt", true);
         yield return new WaitForSeconds(StuntTime);
         isStunned = false;
+        isStunning = false;
         animation.SetBool("isStunt", false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("GameOver"))
+        {
+            StartCoroutine(Die());
+        }
+    }
+
+    protected void Shoot()
+    {
+        if (isStunned || isDead) return;
+        var position = new Vector2(spawnPosition.x + shootingDirection * transform.localScale.x, spawnPosition.y);
+        var shootingBullet = Instantiate(bullet,spawnPosition,Quaternion.identity);
+        if (shootingDirection<0)
+        {
+            shootingBullet.transform.Rotate(0,180,0);
+        }
+        shootingBullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector2 (shootingSpeed*shootingDirection, rb.linearVelocityY);
     }
 }

@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 15.125, y: 0.1, z: 1}
+  m_LocalScale: {x: 6.499024, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7744912511970689446}
@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 3938422177858812440}
   - component: {fileID: 5125536483062767010}
   - component: {fileID: 1953682359981695248}
+  - component: {fileID: 8592226209042312564}
   m_Layer: 0
   m_Name: FlyingE
   m_TagString: Enemy
@@ -221,13 +222,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   damage: 1
-  speed: 5
+  speed: 3
   rangeObject: {fileID: 3180301163194467557}
-  RespawmTime: 5
-  StuntTime: 1
+  StuntTime: 3
   animation: {fileID: 5125536483062767010}
   isDead: 0
   isStunned: 0
+  spawnPosition: {x: -2.298418, y: -2.994111, z: 0}
+  type: 
+  deathSound: {fileID: 8300000, guid: 328763bc966b64b91bd57907bd828b53, type: 3}
+  stunSound: {fileID: 8300000, guid: 6093d815c94e8b34fa861240895ce49f, type: 3}
+  audioSource: {fileID: 0}
+  enemySpawner: {fileID: 0}
+  RespawmTime: 3
+  flySpeed: 5
+  heightDiff: 0.05
 --- !u!95 &5125536483062767010
 Animator:
   serializedVersion: 7
@@ -284,8 +293,105 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.058649898}
-  m_Radius: 0.6913501
+  m_Offset: {x: 0, y: -0.13167512}
+  m_Radius: 0.6183249
+--- !u!82 &8592226209042312564
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825211526147351200}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7158753354090638639
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,9 +403,9 @@ GameObject:
   - component: {fileID: 7824682483165013014}
   - component: {fileID: 6500412769994557573}
   - component: {fileID: 1902426773923013980}
-  m_Layer: 0
-  m_Name: Square
-  m_TagString: Enemy
+  m_Layer: 6
+  m_Name: FlyingEnemyHead
+  m_TagString: EnemyHead
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -313,8 +419,8 @@ Transform:
   m_GameObject: {fileID: 7158753354090638639}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.4266, z: 0}
-  m_LocalScale: {x: 1, y: 0.25351325, z: 1}
+  m_LocalPosition: {x: 0.0067, y: 0.4704, z: 0}
+  m_LocalScale: {x: 1.0149297, y: 0.34124637, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7744912511970689446}
