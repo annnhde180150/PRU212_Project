@@ -56,7 +56,6 @@ public class GameOverScript : MonoBehaviour
 
         //respawn all monster
         var spawner = enemyManager.GetComponent<EnemySpawner>();
-        Debug.Log(spawner.types.Length);
         foreach(Transform child in spawner.transform) 
             Destroy(child.gameObject);
         spawner.StopRespawning();
