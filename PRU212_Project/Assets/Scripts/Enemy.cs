@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
     public bool isStunned = false;
     private bool isStunning = false;
     protected bool canTurn = true;
-    protected float range;
+    public float range;
     protected int direction = 1;
     protected Rigidbody2D rb;
     public Vector3 spawnPosition;
@@ -87,7 +87,7 @@ public class Enemy : MonoBehaviour
         audioSource.PlayOneShot(deathSound);
         rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
         yield return new WaitForSeconds(deathSound.length);
-        enemySpawner.Respawn(type, spawnPosition, RespawmTime);
+        enemySpawner.Respawn(type, spawnPosition, RespawmTime, range);
         Destroy(gameObject);
     }
 

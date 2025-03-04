@@ -41,7 +41,7 @@ public class GameOverScript : MonoBehaviour
             Destroy(child.gameObject);
         spawner.StopRespawning();
         for (int i =0; i < spawner.types.Length; i++)
-            StartCoroutine(spawner.Spawn(spawner.types[i], spawner.spawns[i], 0));
+            StartCoroutine(spawner.Spawn(spawner.types[i], spawner.spawns[i], 0, spawner.ranges[i]));
 
         Debug.Log("Load Checkpoint");
     }

@@ -8,16 +8,19 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]public GameObject[] enemies;
     public string[] types;
     public Vector3[] spawns;
+    public float[] ranges;
     private List<Coroutine> respawners = new List<Coroutine>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         types = new string[transform.childCount];
         spawns = new Vector3[transform.childCount];
+        ranges = new float[transform.childCount];
         for (int i = 0; i < types.Length; i++)
         {
             types[i] = transform.GetChild(i).GetComponent<Enemy>().type;
             spawns[i] = transform.GetChild(i).GetComponent<Enemy>().spawnPosition;
+            ranges[i] = transform.GetChild(i).GetComponent<Enemy>().range;
         }
     }
 
@@ -33,13 +36,13 @@ public class EnemySpawner : MonoBehaviour
         respawners.Clear();
     }
 
-    public void Respawn(string type, Vector3 position, float time)
+    public void Respawn(string type, Vector3 position, float time, float range)
     {
-        Coroutine newSpawn =  StartCoroutine(Spawn(type, position, time));
+        Coroutine newSpawn =  StartCoroutine(Spawn(type, position, time, range));
         respawners.Add(newSpawn);
     }
 
-    public IEnumerator Spawn(string type, Vector3 position, float time)
+    public IEnumerator Spawn(string type, Vector3 position, float time, float range)
     {
         GameObject enemy = null;
         var spawnPosition = position;
@@ -59,6 +62,7 @@ public class EnemySpawner : MonoBehaviour
         }
         yield return new WaitForSeconds(time);
         enemy.GetComponent<Enemy>().spawnPosition = spawnPosition;
-        Instantiate(enemy, spawnPosition, Quaternion.identity, transform);
+        var newEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity, transform);
+        newEnemy.GetComponent<Enemy>().range = range;
     }
 }
