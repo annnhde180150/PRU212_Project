@@ -2,19 +2,23 @@ using UnityEngine;
 
 public class SlimeBlockScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public float bounceForce = 5f; // Adjust for higher bounce
+    public float bounceForce = 5f; 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Vector2 collisionNormal = collision.GetContact(0).normal;
+            Vector2 oppositeDirection = -collisionNormal;
+
             Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
 
             if (rb != null)
             {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, bounceForce); // Apply bounce force
+                rb.AddForce(oppositeDirection * bounceForce, ForceMode2D.Impulse);
             }
+
+           
         }
     }
 }
