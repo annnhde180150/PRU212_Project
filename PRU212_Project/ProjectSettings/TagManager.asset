@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - GameOver
+  - Coin
+  - Enemy
+  - Destructible
+  - EnemyHead
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -14,7 +19,7 @@ TagManager:
   - UI
   - Ground
   - Background
-  - Wall
+  - 
   - 
   - 
   - 
@@ -51,8 +56,17 @@ TagManager:
   - name: Ground
     uniqueID: 3532641265
     locked: 0
+  - name: Foreground
+    uniqueID: 3082554461
+    locked: 0
+  - name: Coin
+    uniqueID: 1234458027
+    locked: 0
   - name: Player
     uniqueID: 1497628821
+    locked: 0
+  - name: PlayerAnimation
+    uniqueID: 1506188503
     locked: 0
   - name: UI
     uniqueID: 1012870701

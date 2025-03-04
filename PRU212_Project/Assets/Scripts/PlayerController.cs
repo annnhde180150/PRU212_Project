@@ -1,15 +1,22 @@
 using System.Collections;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    
-    [Header("wallCheck")]
+    [Header("Animation")]
+    [SerializeField] public Animator animator;
+    [SerializeField] public GameObject landingAnimation;
+    [SerializeField] public Transform animationPoint;
+    private Animator dustAnimator;
+    private bool islanding;
+
+    [Header("WallCheck")]
     [SerializeField] public Transform wallCheckpos;  
     [SerializeField] public LayerMask wallLayer;
 
-    [Header("wallMovement")]
+    [Header("WallMovement")]
     public float wallSlideSpeed = 2f;
     bool isWallSliding;
     bool isTouchingWall;
@@ -39,39 +46,63 @@ public class NewMonoBehaviourScript : MonoBehaviour
     [SerializeField] private float dashPower = 100f;
     [SerializeField] private float dashTime = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private TrailRenderer tr;
     private float dashCountdown = 0;
     private int dashCount = 0;
-    private bool isDashing = false;
+    public bool isDashing = false;
 
-    private GameOverScript GameOver;
+    [Header("PlayerSpecialAttack")]
+    [SerializeField] private float specialAttackPower = 10f;
+    [SerializeField] private float specialAttackTime = 1f;
+    [SerializeField] private float specialAttackCooldown = 1f; 
+    private float specialAttackCountdown = 0;
+    private int specialAttackCount = 0;
+    public bool isSpecialAttack = false;
+
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        GameOver = FindObjectOfType<GameOverScript>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
-    {    
-
+    {
+        
+        
+         
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {       
         if (!isDashing)
         {
-            Move();
-            Jump();
-            wallSlide();
+            Move();  
+            Jump();          
+            CheckGrounded();
+            wallSlide();           
             WallJump();
             StartCoroutine(Dash());
+            StartCoroutine(SpecialAttack());          
         }
+    }
+
+    //Create dust when player jump, land
+    private void CreateDust(string triggerName)
+    {
+        GameObject playerDust = Instantiate(landingAnimation, animationPoint.position, Quaternion.identity);  
+        dustAnimator = playerDust.GetComponent<Animator>();
+        if (dustAnimator != null)
+        {
+            dustAnimator.SetTrigger(triggerName);
+        }
+        Destroy(playerDust, 0.5f);
     }
 
     //movement function
     private void Move()
-    {       
+    {
+        
         float x = Input.GetAxis("Horizontal");
         if (x * direction < 0)
         {           
@@ -79,81 +110,92 @@ public class NewMonoBehaviourScript : MonoBehaviour
             transform.Rotate(0, 180, 0);
         }
         if (isGrounded)
-        {
+        {            
+            animator.SetFloat("speed", Mathf.Abs(x));
             rb.linearVelocity = new Vector2(x * moveSpeed, rb.linearVelocity.y);
         }else if(!isGrounded && !isWallSliding && x != 0)
         {
             rb.AddForce(new Vector2(airMovementSpeed* x,0),ForceMode2D.Force);            
-            rb.linearVelocity = new Vector2(Mathf.Clamp(rb.linearVelocity.x, -moveSpeed, moveSpeed), rb.linearVelocity.y);
-            //if(Mathf.Abs(rb.linearVelocityX) > moveSpeed)
-            //{
-            //    rb.linearVelocity = new Vector2(x * moveSpeed, rb.linearVelocity.y);
-            //}
-        }
-
-
-
-return;            
+            rb.linearVelocity = new Vector2(Mathf.Clamp(rb.linearVelocity.x, -moveSpeed, moveSpeed), rb.linearVelocity.y);           
+        }     
+        return;            
     }
 
     private void Jump()
     {
-        if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Vertical")) && JumpCount++ < maxJump-1 && !isWallSliding)
+        //animator.SetBool("IsJump", true);
+        if ((Input.GetButtonDown("Jump")) && JumpCount < maxJump -1 && !isWallSliding)
         {
-            Debug.Log("Jump");
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            CreateDust("JumpDustTrigger");            
+            JumpCount = Mathf.Clamp(JumpCount + 1, 0, maxJump);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);                    
         }
+        
+    } 
+    private void CheckGrounded()
+    {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
-        
-        
-        if(isGrounded)
+        if (isGrounded)
         {
+            animator.SetBool("IsSpecialAttackFinish", true);
+            animator.SetBool("IsJumpFinish", true);
+            JumpCount = 0;     
             
-            JumpCount = 0;           
-        }       
-    }    
+        }
+        else
+        {
+            animator.SetBool("IsJumpFinish", false);           
+            animator.SetTrigger("IsJumpTrigger");
+            islanding = true;
+        }
+
+        if (isSpecialAttack && isGrounded)
+        {
+            CreateDust("StompDustTrigger");
+            isSpecialAttack = false;
+        }
+
+        if (islanding && isGrounded && !isSpecialAttack)
+        {
+            CreateDust("LandDustTrigger");           
+            islanding = false;
+        }
+    }
+
     private void wallSlide()
     {
         isTouchingWall = Physics2D.OverlapCircle(wallCheckpos.position, 0.1f, wallLayer);
 
         if (!isGrounded && isTouchingWall && rb.linearVelocityY < 0)
-        {        
+        {
+            
+            animator.SetBool("IsWallAni", true);
             isWallSliding = true;                     
         }
         else
-        {            
+        {        
+            animator.SetBool("IsWallAni", false);
             isWallSliding = false;
         }
 
         if (isWallSliding)
         {
+            JumpCount = 0;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, -wallSlideSpeed);
         }
     }
 
     public void WallJump()
     {
-        if (isWallSliding)
-        {
-            IswallJumping = false;
-            
-            wallJumpingCounter = wallJumpingTime;
-            CancelInvoke(nameof(StopWallJumping));
-        }
-        else
-        {
-            wallJumpingCounter -= Time.deltaTime;
-        }
         if (Input.GetButtonDown("Jump") && isWallSliding)
         {
             Debug.Log("WallJump");
             IswallJumping = true;
-            
-            rb.linearVelocity = new Vector2(wallJumpingForce.x * -direction, wallJumpingForce.y);           
-            Invoke(nameof(StopWallJumping), wallJumpingDuration);
+            animator.SetTrigger("IsJumpTrigger");
+            rb.linearVelocity = new Vector2(wallJumpingForce.x * -direction, wallJumpingForce.y);                      
         }
     }
-        private IEnumerator Dash()
+    private IEnumerator Dash()
     {
         dashCountdown += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashCount <1 && dashCountdown >= dashCooldown)
@@ -161,28 +203,55 @@ return;
             dashCountdown = 0;
             dashCount++;
             isDashing = true;
-
             float originalGravity = rb.gravityScale;
             rb.gravityScale = 0;
-            rb.linearVelocity = new Vector2(dashPower*direction , 0);
+            if (((Input.GetKey(KeyCode.UpArrow)) && (Input.GetKey(KeyCode.RightArrow))) || ((Input.GetKey(KeyCode.UpArrow)) && (Input.GetKey(KeyCode.LeftArrow))))
+            {
+                float dashAngle = 45f * Mathf.Deg2Rad;
+                rb.linearVelocity = new Vector2(dashPower * direction, dashPower * Mathf.Sin(dashAngle));
+                
+            }
+            else
+            {
+               rb.linearVelocity = new Vector2(dashPower * direction, 0);
+            }              
+            tr.emitting = true;
+            animator.SetBool("IsRollFinish", false);
+            animator.SetTrigger("IsRollTrigger");          
             yield return new WaitForSeconds(dashTime);
-            rb.gravityScale = originalGravity;
+            rb.gravityScale = originalGravity;           
+            animator.SetBool("IsRollFinish", true);
             isDashing = false;
-        }
-        if(isGrounded || isTouchingWall) dashCount = 0;
+            tr.emitting = false;
+        }              
+        if (isGrounded || isTouchingWall) dashCount = 0;
     } 
+
+    private IEnumerator SpecialAttack()
+    {
+        specialAttackCountdown += Time.deltaTime;
+        //
+        if (Input.GetKeyDown(KeyCode.LeftControl)&& !isGrounded  && specialAttackCount < 1 && specialAttackCountdown >= specialAttackCooldown)
+        {           
+            specialAttackCountdown = 0;
+            specialAttackCount++;
+            isSpecialAttack = true;                                          
+            animator.SetBool("IsSpecialAttackFinish", false);           
+            animator.SetTrigger("IsSpecialAttackTrigger");                                           
+            rb.linearVelocity = new Vector2(0, -specialAttackPower);                      
+            yield return new WaitForSeconds(specialAttackTime);                       
+            animator.SetBool("IsSpecialAttackFinish", true);                              
+            isSpecialAttack = false;           
+
+        }
+        if (isGrounded || isTouchingWall) specialAttackCount = 0;
+    }
     private void StopWallJumping()
     {
         IswallJumping = false;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "GameOver")
-        {
-            Debug.Log("Game Over");
-            GameOver.GameOver();
-        }
-    }
+
+    
 }
 
 
