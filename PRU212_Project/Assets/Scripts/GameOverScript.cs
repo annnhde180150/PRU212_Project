@@ -9,11 +9,16 @@ public class GameOverScript : MonoBehaviour
     [SerializeField] private GameObject enemyManager;
     private bool isGameOver = false;
     public GameObject player;
+    public PlayerController playerController;
     void Awake()
     {
         gameOverPanel.SetActive(false);
     }
 
+    private void Start()
+    {
+        playerController = player.GetComponent<PlayerController>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -25,6 +30,13 @@ public class GameOverScript : MonoBehaviour
         isGameOver = true;
         Time.timeScale = 0;
         gameOverPanel.SetActive(true);
+
+        //Disable player movement
+        if (playerController != null)
+        {
+            playerController.enabled = false; 
+        }
+
     }
 
     public void LoadCheckpoint()
@@ -33,6 +45,11 @@ public class GameOverScript : MonoBehaviour
         Time.timeScale = 1;
         player.transform.position = PlayerManager.lastCheckPointPos;
         gameOverPanel.SetActive(false);
+
+        if (playerController != null)
+        {
+            playerController.enabled = true; // Re-enable movement
+        }
 
         //respawn all monster
         var spawner = enemyManager.GetComponent<EnemySpawner>();
@@ -50,6 +67,11 @@ public class GameOverScript : MonoBehaviour
     {
         isGameOver = false;
         Time.timeScale = 1;
+
+        if (playerController != null)
+        {
+            playerController.enabled = false;
+        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
    
