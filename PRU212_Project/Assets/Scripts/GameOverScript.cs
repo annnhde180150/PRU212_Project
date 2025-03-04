@@ -22,7 +22,10 @@ public class GameOverScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (isGameOver && Input.GetKeyDown(KeyCode.Space))
+        {
+            LoadCheckpoint();
+        }
     }
 
     public void GameOver()
