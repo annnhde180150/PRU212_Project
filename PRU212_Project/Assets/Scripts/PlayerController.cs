@@ -23,11 +23,11 @@ public class PlayerController : MonoBehaviour
 
     [Header("PlayerWallJump")]
     [SerializeField] private float airMovementSpeed = 2f;
-    private bool IswallJumping;
-    private float wallJumpingDirection;
-    private float wallJumpingTime;
-    private float wallJumpingCounter;
-    private float wallJumpingDuration = 0.4f;
+    //private bool IswallJumping;
+    //private float wallJumpingDirection;
+    //private float wallJumpingTime;
+    //private float wallJumpingCounter;
+    //private float wallJumpingDuration = 0.4f;
     [SerializeField] private Vector2 wallJumpingForce = new Vector2(8f,16f);
 
     [Header("PlayerMovementJump")]
@@ -189,8 +189,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && isWallSliding)
         {
-            Debug.Log("WallJump");
-            IswallJumping = true;
+            Debug.Log("WallJump");          
             animator.SetTrigger("IsJumpTrigger");
             rb.linearVelocity = new Vector2(wallJumpingForce.x * -direction, wallJumpingForce.y);                      
         }
@@ -245,13 +244,7 @@ public class PlayerController : MonoBehaviour
 
         }
         if (isGrounded || isTouchingWall) specialAttackCount = 0;
-    }
-    private void StopWallJumping()
-    {
-        IswallJumping = false;
-    }
-
-    
+    }      
 }
 
 
