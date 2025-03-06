@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -5,13 +6,14 @@ using UnityEngine.Tilemaps;
 public class DestructibleScript : MonoBehaviour
 {
     private Tilemap tilemap;
-    private BoundsInt areaBounds; 
-    public int areaSize = 10; 
+    public int areaSize = 10;
+    private HashSet<Vector3Int> visitedTiles;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        tilemap = GetComponent<Tilemap>(); 
+        tilemap = GetComponent<Tilemap>();
+        visitedTiles = new HashSet<Vector3Int>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -20,29 +22,62 @@ public class DestructibleScript : MonoBehaviour
         {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
-            if (player != null && (player.isDashing || player.isSpecialAttack)) 
+            print("isSpecialAttack: " + player.isSpecialAttack);
+            if (player.isDashing || player.isSpecialAttack)
             {
 
                 Vector3 hitPosition = collision.GetContact(0).point;
                 Vector3Int tilePosition = tilemap.WorldToCell(hitPosition);
 
-                areaBounds = new BoundsInt(tilePosition.x - areaSize / 2, tilePosition.y - areaSize / 2, tilePosition.z, areaSize, areaSize, 1);
-
-                for (int x = areaBounds.xMin; x < areaBounds.xMax; x++)
+                if (tilemap.HasTile(tilePosition))
                 {
-                    for (int y = areaBounds.yMin; y < areaBounds.yMax; y++)
-                    {
-                        Vector3Int currentTilePos = new Vector3Int(x, y, areaBounds.zMin);
-
-                      
-                        if (tilemap.HasTile(currentTilePos))
-                        {
-                            tilemap.SetTile(currentTilePos, null); 
-                        }
-                    }
+                    FloodFill(tilePosition); 
+                    Debug.Log("Wall group broken!");
                 }
 
-                Debug.Log("Wall broken");
+            }
+        }
+    }
+
+    private void FloodFill(Vector3Int startTile)
+    {
+        Queue<Vector3Int> tilesToCheck = new Queue<Vector3Int>();
+        tilesToCheck.Enqueue(startTile); 
+        visitedTiles.Clear(); 
+
+        while (tilesToCheck.Count > 0)
+        {
+            Vector3Int currentTile = tilesToCheck.Dequeue();
+
+            if (visitedTiles.Contains(currentTile)) continue;
+
+            visitedTiles.Add(currentTile);
+
+            if (tilemap.HasTile(currentTile))
+            {
+                tilemap.SetTile(currentTile, null); 
+            }
+
+            Vector3Int[] neighbors = new Vector3Int[]
+            {
+                new Vector3Int(1, 0, 0), // Right
+                new Vector3Int(-1, 0, 0), // Left
+                new Vector3Int(0, 1, 0), // Up
+                new Vector3Int(0, -1, 0), // Down
+                new Vector3Int(1, 1, 0), // Top-right
+                new Vector3Int(-1, 1, 0), // Top-left 
+                new Vector3Int(1, -1, 0), // Bottom-right 
+                new Vector3Int(-1, -1, 0) // Bottom-left 
+            };
+
+            foreach (var direction in neighbors)
+            {
+                Vector3Int neighborTile = currentTile + direction;
+        
+                if (tilemap.HasTile(neighborTile) && !visitedTiles.Contains(neighborTile))
+                {
+                    tilesToCheck.Enqueue(neighborTile);
+                }
             }
         }
     }
