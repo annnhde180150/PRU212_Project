@@ -6,7 +6,6 @@ using UnityEngine.Tilemaps;
 public class DestructibleScript : MonoBehaviour
 {
     private Tilemap tilemap;
-    public int areaSize = 10;
     private HashSet<Vector3Int> visitedTiles;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
