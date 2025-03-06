@@ -56,4 +56,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(delay); // Wait for the delay
         coinCollider.enabled = true; // Enable collection
     }
+
+    public int GetCointCoutn()
+    {
+        return score;
+    }
 }

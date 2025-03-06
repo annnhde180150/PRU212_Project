@@ -40,10 +40,15 @@ public class PlayerCollision : MonoBehaviour
             }
             //else if (!enemy.isDead) gameOver.GameOver();
             else if (!enemy.isStunned)
-            { 
-                gameManager.DropCoins(collision.transform.position);
-                gameManager.addScore(-3);
-                Debug.Log("Hit enemy");
+            {
+                if (gameManager.GetCointCoutn() > 0)
+                {
+                    gameManager.DropCoins(collision.transform.position);
+                    gameManager.addScore(-3);
+                    Debug.Log("Hit enemy");
+                }
+                else
+                    gameOver.GameOver();
             }
             //gameManager.addScore(-1);
             //StartCoroutine(enemy.Die());
