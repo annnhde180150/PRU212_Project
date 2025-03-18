@@ -1,25 +1,15 @@
 fileFormatVersion: 2
-guid: fed24bd82cefc0c4a8ef64dab6231b53
-AssetOrigin:
-  serializedVersion: 1
-  productId: 120676
-  packageName: Simple Heart Health System
-  packageVersion: 1.0
-  assetPath: Assets/HealthHeartSystem/Graphics/mini-heart.png
-  uploadId: 286486
+guid: 0cde0bc7d364dbe4bbcad2dda6dcd4e0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 21300000
-    second: mini-heart_0
-  - first:
-      213: 21300002
-    second: mini-heart_1
+      213: 1906179667584715834
+    second: pixel-heart-Empty_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -43,12 +33,12 @@ TextureImporter:
   generateCubemap: 6
   cubemapConvolution: 0
   seamlessCubemap: 0
-  textureFormat: -1
+  textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
-    aniso: 16
+    filterMode: 1
+    aniso: 1
     mipBias: 0
     wrapU: 1
     wrapV: 1
@@ -76,9 +66,9 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
@@ -95,14 +85,14 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 32
+    maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 12
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 1
+    overridden: 0
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -123,45 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mini-heart_0
+      name: pixel-heart-Empty_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 5
-        width: 8
-        height: 7
+        x: 93
+        y: 169
+        width: 1086
+        height: 939
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 02305410000000000800000000000000
-      internalID: 21300000
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: mini-heart_1
-      rect:
-        serializedVersion: 2
-        x: 20
-        y: 5
-        width: 8
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 22305410000000000800000000000000
-      internalID: 21300002
+      spriteID: a3c857cee4c147a10800000000000000
+      internalID: 1906179667584715834
       vertices: []
       indices: 
       edges: []
@@ -180,8 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      mini-heart_0: 21300000
-      mini-heart_1: 21300002
+      pixel-heart-Empty_0: 1906179667584715834
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
