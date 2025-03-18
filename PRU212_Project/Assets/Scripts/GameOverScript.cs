@@ -9,7 +9,7 @@ public class GameOverScript : MonoBehaviour
     [SerializeField] private GameObject enemyManager;
     private bool isGameOver = false;
     public GameObject player;
-    public PlayerController playerController;
+    private PlayerController playerController;
     void Awake()
     {
         gameOverPanel.SetActive(false);

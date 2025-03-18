@@ -10,6 +10,8 @@ TagManager:
   - Destructible
   - EnemyHead
   - Bullet
+  - Boss
+  - BossHead
   layers:
   - Default
   - TransparentFX

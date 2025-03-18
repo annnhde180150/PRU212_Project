@@ -61,7 +61,6 @@ public class EnemySpawner : MonoBehaviour
                 break;
         }
         yield return new WaitForSeconds(time);
-        enemy.GetComponent<Enemy>().spawnPosition = spawnPosition;
         var newEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity, transform);
         newEnemy.GetComponent<Enemy>().range = range;
     }
