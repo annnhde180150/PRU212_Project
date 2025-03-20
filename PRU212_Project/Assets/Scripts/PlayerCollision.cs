@@ -38,8 +38,18 @@ public class PlayerCollision : MonoBehaviour
                 enemy.isDead = true;
                 //gameManager.addScore(1);
             }
-            //else if (!enemy.isDead) gameOver.GameOver();
-            else if (!enemy.isStunned)
+            else
+            if (!enemy.isDead) 
+            {
+                HeathManager.Heath--;
+                if (HeathManager.Heath <= 0)
+                {
+                    gameOver.GameOver();
+                }
+                    
+            } 
+            else 
+            if (!enemy.isStunned)
             {
                 if (gameManager.GetCointCoutn() > 0)
                 {
