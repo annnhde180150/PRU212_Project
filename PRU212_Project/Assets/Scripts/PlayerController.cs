@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
         if (isSpecialAttack && isGrounded)
         {
             CreateDust("StompDustTrigger");
-            isSpecialAttack = false;
+            //isSpecialAttack = false;
         }
 
         if (islanding && isGrounded && !isSpecialAttack)
@@ -256,8 +256,9 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("IsSpecialAttackTrigger");
             Debug.Log("isSpecialAttack " + isSpecialAttack);
             rb.linearVelocity = new Vector2(0, -specialAttackPower);
-            yield return new WaitForSeconds(specialAttackTime);
             animator.SetBool("IsSpecialAttackFinish", true);
+            yield return new WaitForSeconds(specialAttackTime);
+            
             isSpecialAttack = false;
 
         }
