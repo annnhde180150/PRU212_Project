@@ -48,7 +48,7 @@ public class GameOverScript : MonoBehaviour
         Time.timeScale = 1;
         player.transform.position = PlayerManager.lastCheckPointPos;
         gameOverPanel.SetActive(false);
-        HeathManager.Heath = 3;
+        HeathManager.ReloadHealth();
         if (playerController != null)
         {
             playerController.enabled = true; // Re-enable movement
@@ -74,7 +74,7 @@ public class GameOverScript : MonoBehaviour
         {
             playerController.enabled = false;
         }
-        HeathManager.Heath = 3;
+        HeathManager.ReloadHealth();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
    

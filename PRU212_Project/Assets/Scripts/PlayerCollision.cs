@@ -42,8 +42,9 @@ public class PlayerCollision : MonoBehaviour
             else
             if (!enemy.isDead) 
             {
-                HeathManager.Heath--;
-                if (HeathManager.Heath <= 0)
+                HeathManager.TakeDamage(1);
+                PlayerController.playHurtsound();
+                if (HeathManager.health <= 0)
                 {
                     gameOver.GameOver();
                 }
@@ -56,8 +57,9 @@ public class PlayerCollision : MonoBehaviour
             else 
             if (!enemy.isStunned)
             {
-                HeathManager.Heath--;
-                if (HeathManager.Heath <= 0)
+                HeathManager.TakeDamage(1);
+                PlayerController.playHurtsound();
+                if (HeathManager.health <= 0)
                 {
                     gameOver.GameOver();
                 }

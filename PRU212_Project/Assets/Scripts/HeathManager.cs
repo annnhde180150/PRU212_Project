@@ -4,27 +4,56 @@ using UnityEngine.UI;
 public class HeathManager : MonoBehaviour
 {
     [Header("Heath Settings")]
-    [SerializeField] public static int Heath = 3;
+    public static HeathManager instance;
+    [SerializeField] private int maxHealth = 6;
+    public static int health = 3;
     public Image[] heart;
     [SerializeField] public Sprite fullHeart;
     [SerializeField] public Sprite emptyHeart;
 
+
+    void Awake()
+    {
+        instance = this;  // Gán instance cho Singleton
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-            
+        UpdateHealthUI();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        foreach (Image image in heart)
+    }
+
+    public void UpdateHealthUI()
+    {
+        for (int i = 0; i < heart.Length; i++)
         {
-            image.sprite = emptyHeart;
+            heart[i].enabled = (i < health); 
         }
-        for(int i=0; i < Heath; i++)
-        {
-            heart[i].sprite = fullHeart;
-        }
+    }
+
+    public static void TakeDamage(int damage)
+    {
+        health -= damage;
+        health = Mathf.Clamp(health, 0, instance.maxHealth); 
+        instance.UpdateHealthUI(); 
+    }
+
+    public static void ReloadHealth()
+    {
+        health = 3;
+        instance.UpdateHealthUI();
+    }
+
+    public static void AddHealth(int healthAmount)
+    {
+        health += healthAmount;
+        health = Mathf.Clamp(health, 0, instance.maxHealth);
+        instance.UpdateHealthUI();
     }
 }

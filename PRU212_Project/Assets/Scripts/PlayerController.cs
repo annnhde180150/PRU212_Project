@@ -1,16 +1,26 @@
 using System.Collections;
 using System.Linq;
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     [Header("Animation")]
     [SerializeField] public Animator animator;
     [SerializeField] public GameObject landingAnimation;
     [SerializeField] public Transform animationPoint;
     private Animator dustAnimator;
     private bool islanding;
+
+    [Header("Audio")]
+    [SerializeField] public AudioClip jumpSound;
+    [SerializeField] public AudioClip attackSound;
+    [SerializeField] public AudioClip hurtSound;
+    public AudioSource audioSource;
 
     [Header("WallCheck")]
     [SerializeField] public Transform wallCheckpos;
@@ -58,17 +68,13 @@ public class PlayerController : MonoBehaviour
     private float specialAttackCountdown = 0;
     private int specialAttackCount = 0;
     public bool isSpecialAttack = false;
+    private int specialJumpDustCount = 0;
 
-    [Header("PlayerDuck")]
-    public bool isDuck = false;
-    private float duckHoldTime = 0f; 
-    private bool isHoldingDuck = false;
-    [SerializeField]  private float DuckForce = 10f;
-    private bool isDuckJump = false;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
+        instance = this;
         rb = GetComponent<Rigidbody2D>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -91,7 +97,6 @@ public class PlayerController : MonoBehaviour
             WallJump();
             StartCoroutine(Dash());
             StartCoroutine(SpecialAttack());
-            StartCoroutine(Duck());
         }
     }
 
@@ -127,14 +132,6 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(new Vector2(airMovementSpeed * x, 0), ForceMode2D.Force);
             rb.linearVelocity = new Vector2(Mathf.Clamp(rb.linearVelocity.x, -moveSpeed, moveSpeed), rb.linearVelocity.y);
         }
-
-        if (isDuck)
-        {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); 
-            //animator.SetFloat("speed", 0); 
-            return;
-        }
-
         return;
     }
 
@@ -143,6 +140,7 @@ public class PlayerController : MonoBehaviour
         //animator.SetBool("IsJump", true);
         if ((Input.GetButtonDown("Jump")) && JumpCount < maxJump - 1 && !isWallSliding)
         {
+            audioSource.PlayOneShot(jumpSound);
             CreateDust("JumpDustTrigger");
             JumpCount = Mathf.Clamp(JumpCount + 1, 0, maxJump);
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
@@ -166,9 +164,10 @@ public class PlayerController : MonoBehaviour
             islanding = true;
         }
 
-        if (isSpecialAttack && isGrounded)
+        if (isSpecialAttack && isGrounded && specialJumpDustCount ==0)
         {
             CreateDust("StompDustTrigger");
+            specialJumpDustCount++;
             //isSpecialAttack = false;
         }
 
@@ -249,7 +248,9 @@ public class PlayerController : MonoBehaviour
         //
         if (Input.GetKeyDown(KeyCode.LeftControl) && !isGrounded && specialAttackCount < 1 && specialAttackCountdown >= specialAttackCooldown)
         {
+            audioSource.PlayOneShot(attackSound);
             specialAttackCountdown = 0;
+            specialJumpDustCount = 0;
             specialAttackCount++;
             isSpecialAttack = true;
             animator.SetBool("IsSpecialAttackFinish", false);
@@ -265,48 +266,10 @@ public class PlayerController : MonoBehaviour
         if (isGrounded || isTouchingWall) specialAttackCount = 0;
     }
 
-    private IEnumerator Duck()
+     
+    public static void playHurtsound()
     {
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            if (!isHoldingDuck)
-            {
-                isHoldingDuck = true;
-                duckHoldTime = 0f;
-            }
-            duckHoldTime += Time.deltaTime;
-            isDuck = true;
-            Debug.Log("isDuck " + isDuck);
-            animator.SetBool("IsDuckFirst", true);
-            animator.SetBool("IsDuckFirstFinish", false);
-            if (duckHoldTime >= 1f)
-            {
-                animator.SetBool("IsDuckFirst", false);
-                animator.SetBool("IsDuckSecond", true);
-                isDuckJump = true;
-            }
-        }
-        else
-        {
-            
-            if (isHoldingDuck)
-            {
-                isDuck = false;
-                isHoldingDuck = false;                
-                animator.SetBool("IsDuckFirstFinish", true);
-                animator.SetBool("IsDuckFirst", false);
-            }           
-            if (duckHoldTime >= 1f && isDuckJump) 
-            {
-                animator.SetBool("IsDuckFirst", false);
-                animator.SetBool("IsDuckSecond", false);
-                isDuckJump = false;
-                rb.linearVelocity = new Vector2(0, DuckForce);
-                yield return new WaitForSeconds(1f);
-                isDuck = false;
-                Debug.Log("isDuck " + isDuck);
-            }
-        }
+        instance.audioSource.PlayOneShot(instance.hurtSound);
     }
 }
 
