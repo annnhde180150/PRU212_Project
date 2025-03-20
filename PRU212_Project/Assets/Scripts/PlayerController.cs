@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [Header("Audio")]
     [SerializeField] public AudioClip jumpSound;
     [SerializeField] public AudioClip attackSound;
+    [SerializeField] public AudioClip dashSound;
     [SerializeField] public AudioClip hurtSound;
     public AudioSource audioSource;
 
@@ -215,6 +216,7 @@ public class PlayerController : MonoBehaviour
         dashCountdown += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashCount < 1 && dashCountdown >= dashCooldown)
         {
+            audioSource.PlayOneShot(dashSound);
             dashCountdown = 0;
             dashCount++;
             isDashing = true;
