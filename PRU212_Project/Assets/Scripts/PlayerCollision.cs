@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEditor.Search;
 using UnityEngine;
 
@@ -46,6 +47,10 @@ public class PlayerCollision : MonoBehaviour
                 {
                     gameOver.GameOver();
                 }
+                else
+                {
+                    StartCoroutine(GetHurt());
+                }
                     
             } 
             else 
@@ -75,5 +80,15 @@ public class PlayerCollision : MonoBehaviour
                 enemy.isStunned = true;
             }
         }
+    }
+
+    IEnumerator GetHurt()
+    {
+        Physics2D.IgnoreLayerCollision(8, 9);
+        GetComponent<Animator>().SetLayerWeight(1, 1);
+        yield return new WaitForSeconds(3);
+        GetComponent<Animator>().SetLayerWeight(1, 0);
+        Physics2D.IgnoreLayerCollision(8, 9,false);
+
     }
 }
