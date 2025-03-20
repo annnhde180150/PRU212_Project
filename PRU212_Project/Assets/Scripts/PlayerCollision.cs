@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEditor.Search;
 using UnityEngine;
 
@@ -46,19 +47,38 @@ public class PlayerCollision : MonoBehaviour
                 {
                     gameOver.GameOver();
                 }
+                else
+                {
+                    StartCoroutine(GetHurt());
+                }
                     
             } 
             else 
             if (!enemy.isStunned)
             {
-                if (gameManager.GetCointCoutn() > 0)
+                HeathManager.Heath--;
+                if (HeathManager.Heath <= 0)
                 {
-                    gameManager.DropCoins(collision.transform.position);
-                    gameManager.addScore(-3);
-                    Debug.Log("Hit enemy");
+                    gameOver.GameOver();
                 }
                 else
-                    gameOver.GameOver();
+                {
+                    if (gameManager.GetCointCoutn() > 0)
+                    {
+                        gameManager.DropCoins(collision.transform.position);
+                        gameManager.addScore(-3);
+                        Debug.Log("Hit enemy");
+                    }
+                    StartCoroutine(GetHurt());
+                }
+                //if (gameManager.GetCointCoutn() > 0)
+                //{
+                //    gameManager.DropCoins(collision.transform.position);
+                //    gameManager.addScore(-3);
+                //    Debug.Log("Hit enemy");
+                //}
+                //else
+                //    gameOver.GameOver();
             }
             //gameManager.addScore(-1);
             //StartCoroutine(enemy.Die());
@@ -75,5 +95,15 @@ public class PlayerCollision : MonoBehaviour
                 enemy.isStunned = true;
             }
         }
+    }
+
+    IEnumerator GetHurt()
+    {
+        Physics2D.IgnoreLayerCollision(8, 9);
+        GetComponent<Animator>().SetLayerWeight(1, 1);
+        yield return new WaitForSeconds(3);
+        GetComponent<Animator>().SetLayerWeight(1, 0);
+        Physics2D.IgnoreLayerCollision(8, 9,false);
+
     }
 }
