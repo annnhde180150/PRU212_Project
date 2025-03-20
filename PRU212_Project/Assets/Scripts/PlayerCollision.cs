@@ -56,14 +56,29 @@ public class PlayerCollision : MonoBehaviour
             else 
             if (!enemy.isStunned)
             {
-                if (gameManager.GetCointCoutn() > 0)
+                HeathManager.Heath--;
+                if (HeathManager.Heath <= 0)
                 {
-                    gameManager.DropCoins(collision.transform.position);
-                    gameManager.addScore(-3);
-                    Debug.Log("Hit enemy");
+                    gameOver.GameOver();
                 }
                 else
-                    gameOver.GameOver();
+                {
+                    if (gameManager.GetCointCoutn() > 0)
+                    {
+                        gameManager.DropCoins(collision.transform.position);
+                        gameManager.addScore(-3);
+                        Debug.Log("Hit enemy");
+                    }
+                    StartCoroutine(GetHurt());
+                }
+                //if (gameManager.GetCointCoutn() > 0)
+                //{
+                //    gameManager.DropCoins(collision.transform.position);
+                //    gameManager.addScore(-3);
+                //    Debug.Log("Hit enemy");
+                //}
+                //else
+                //    gameOver.GameOver();
             }
             //gameManager.addScore(-1);
             //StartCoroutine(enemy.Die());
