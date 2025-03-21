@@ -21,6 +21,7 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //if (_spriteRenderer != null) _spriteRenderer.material = blast;
-        Destroy(gameObject, 0.2f);
+        //if(collision.gameObject.tag != "Bullet")
+            Destroy(gameObject, 1f);
     }
 }

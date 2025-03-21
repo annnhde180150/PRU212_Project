@@ -34,9 +34,12 @@ public class Enemy : MonoBehaviour
 
     [Header("Attack")]
     [SerializeField] protected GameObject bullet;
-    [SerializeField] protected float shootingSpeed = 3f;
+    [SerializeField] protected float shootingSpeed = 8f;
     [SerializeField] protected float shotTimeDiff = 3f;
     [SerializeField] protected int shootingDirection;
+    [SerializeField] protected Transform bulletPosition;
+    protected bool isShooting = false;
+    protected float offset;
 
     private void Awake()
     {
@@ -45,6 +48,7 @@ public class Enemy : MonoBehaviour
         range = rangeObject.localScale.x / 2f;
         range -= 0.1f;
         audioSource = GetComponent<AudioSource>();
+        offset = spawnPosition.x - bulletPosition.transform.position.x;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -59,7 +63,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    protected int flip()
+    protected virtual int flip()
     {
         transform.Rotate(0, 180, 0);
         return direction *= -1;
@@ -113,15 +117,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    protected void Shoot()
+    //error
+    protected void Shoot(Vector2 shootingPoint)
     {
         if (isStunned || isDead) return;
-        var position = new Vector2(spawnPosition.x + shootingDirection * transform.localScale.x, spawnPosition.y);
-        var shootingBullet = Instantiate(bullet,spawnPosition,Quaternion.identity);
+        var bulletAngle = shootingPoint - (Vector2)bulletPosition.position;
+        float angle = Mathf.Atan2(bulletAngle.y, bulletAngle.x) * Mathf.Rad2Deg;
+        var shootingBullet = Instantiate(bullet, bulletPosition.transform.position, Quaternion.Euler(0,0,angle));
         if (shootingDirection<0)
         {
             shootingBullet.transform.Rotate(0,180,0);
         }
-        shootingBullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector2 (shootingSpeed*shootingDirection, rb.linearVelocityY);
+       
+        shootingBullet.GetComponent<Rigidbody2D>().linearVelocity = shootingSpeed * (shootingPoint - (Vector2)transform.position).normalized;
     }
 }

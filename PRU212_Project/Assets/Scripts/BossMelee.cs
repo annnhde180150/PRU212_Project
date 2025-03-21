@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class BlockEnemy : Enemy
+public class BossMelee : MonoBehaviour
 {
-    private float timeDiff;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,11 +11,12 @@ public class BlockEnemy : Enemy
     // Update is called once per frame
     void Update()
     {
-        timeDiff += Time.deltaTime;
-        if(timeDiff >= shotTimeDiff)
-        {
-            //Shoot();
-            timeDiff = 0;
-        }
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        var boss = FindAnyObjectByType<BossEnemy>();
+        boss.GetComponent<BossEnemy>().isMelee = true;
     }
 }
