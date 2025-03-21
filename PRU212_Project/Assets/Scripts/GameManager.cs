@@ -9,6 +9,11 @@ public class GameManager : MonoBehaviour
     private int coinsToDrop;
     public GameObject coinPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public static GameManager instant;
+    void Awake()
+    {
+        instant = this;
+    }
     void Start()
     {
         updateScore();

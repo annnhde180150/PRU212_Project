@@ -6,6 +6,7 @@ public class Cate : MonoBehaviour
 {
     public Animator animator;
     private bool isPlayerNear = false;
+    public GameObject shop;
     void Start()
     {
     }
@@ -15,7 +16,7 @@ public class Cate : MonoBehaviour
     {
         if (isPlayerNear && (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)))
         {
-            
+            shop.SetActive(true);
         }
     }
 
