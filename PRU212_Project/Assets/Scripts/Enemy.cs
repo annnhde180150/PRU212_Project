@@ -32,14 +32,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected EnemySpawner enemySpawner;
     [SerializeField] public float RespawmTime = 5f;
 
-    [Header("Attack")]
-    [SerializeField] protected GameObject bullet;
-    [SerializeField] protected float shootingSpeed = 8f;
-    [SerializeField] protected float shotTimeDiff = 3f;
-    [SerializeField] protected int shootingDirection;
-    [SerializeField] protected Transform bulletPosition;
-    protected bool isShooting = false;
-    protected float offset;
+    
 
     private void Awake()
     {
@@ -48,7 +41,6 @@ public class Enemy : MonoBehaviour
         range = rangeObject.localScale.x / 2f;
         range -= 0.1f;
         audioSource = GetComponent<AudioSource>();
-        offset = spawnPosition.x - bulletPosition.transform.position.x;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -115,20 +107,5 @@ public class Enemy : MonoBehaviour
         {
             StartCoroutine(Die());
         }
-    }
-
-    //error
-    protected void Shoot(Vector2 shootingPoint)
-    {
-        if (isStunned || isDead) return;
-        var bulletAngle = shootingPoint - (Vector2)bulletPosition.position;
-        float angle = Mathf.Atan2(bulletAngle.y, bulletAngle.x) * Mathf.Rad2Deg;
-        var shootingBullet = Instantiate(bullet, bulletPosition.transform.position, Quaternion.Euler(0,0,angle));
-        if (shootingDirection<0)
-        {
-            shootingBullet.transform.Rotate(0,180,0);
-        }
-       
-        shootingBullet.GetComponent<Rigidbody2D>().linearVelocity = shootingSpeed * (shootingPoint - (Vector2)transform.position).normalized;
     }
 }

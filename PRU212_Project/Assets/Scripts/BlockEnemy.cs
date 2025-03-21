@@ -12,11 +12,5 @@ public class BlockEnemy : Enemy
     // Update is called once per frame
     void Update()
     {
-        timeDiff += Time.deltaTime;
-        if(timeDiff >= shotTimeDiff)
-        {
-            //Shoot();
-            timeDiff = 0;
-        }
     }
 }

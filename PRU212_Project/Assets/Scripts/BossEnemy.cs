@@ -3,20 +3,24 @@ using System;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BossEnemy : Enemy
 {
+    [Header("Attack")]
+    [SerializeField] protected GameObject bulletPrefab;
+    protected bool isShooting = false;
+
+    [SerializeField] private Transform firePoint;
     public bool isImmuned = false;
     private bool isPatternAttacking = false;
     public bool isMelee = false;
     private bool canMove = true;
-    private float latest;
-    private float flipCooldown = 1f;
     AnimatorStateInfo stateInfo;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        direction = -1;
+        direction = 1;
     }
 
     // Update is called once per frame
@@ -63,19 +67,24 @@ public class BossEnemy : Enemy
 
     IEnumerator ShootArm()
     {
+        //start shooting
         canMove = false;
         animation.SetBool("isShooting", true);
         yield return null;
 
-        Debug.Log(bulletPosition.transform.position);
-        // Continuously update stateInfo inside the loop
+        // animation
         stateInfo = animation.GetCurrentAnimatorStateInfo(0);
         yield return new WaitForSeconds(stateInfo.length);
         yield return new WaitForSeconds(0.1f);
         
-        animation.SetBool("isShooting", false);
+        //render bullet
         var playPos = GameObject.Find("Player").transform.position;
-        if (!isShooting) Shoot(playPos);
+        Debug.Log(playPos);
+        var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        bullet.GetComponent<Bullet>().SetTarget(playPos);
+
+        //end shooting
+        animation.SetBool("isShooting", false);
         canMove = true;
     }
 
@@ -105,8 +114,8 @@ public class BossEnemy : Enemy
         yield return new WaitForSeconds(2.0f);
 
         yield return StartCoroutine(ShootArm());
-        yield return StartCoroutine(ShootArm());
-        yield return StartCoroutine(ShootArm());
+        //yield return StartCoroutine(ShootArm());
+        //yield return StartCoroutine(ShootArm());
         yield return new WaitForSeconds(2.0f);
 
         yield return StartCoroutine(meleeAttack());
