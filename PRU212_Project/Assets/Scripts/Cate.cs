@@ -8,6 +8,10 @@ public class Cate : MonoBehaviour
     private bool isPlayerNear = false;
     public GameObject shop;
     private PlayerController playerController;
+
+    public AudioSource audioSource;
+    public AudioClip meowSound;
+
     void Start()
     {
     }
@@ -25,6 +29,11 @@ public class Cate : MonoBehaviour
             if (playerController != null)
             {
                 playerController.enabled = false;
+            }
+
+            if (meowSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(meowSound);
             }
         }
     }
