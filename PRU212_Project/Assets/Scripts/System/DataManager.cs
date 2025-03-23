@@ -93,4 +93,9 @@ public class DataManager : MonoBehaviour
 
         return new List<IData>(dataObjects);
     }
+
+    public GameData GetGameData()
+    {
+        return _gameData;
+    }
 }

@@ -7,7 +7,7 @@ public class GameOverScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject enemyManager;
-    public static GameOverScript instance;
+    public static GameOverScript Instance;
     private bool isGameOver = false;
     public GameObject player;
     public GameObject firstCheckpoint;
@@ -16,7 +16,7 @@ public class GameOverScript : MonoBehaviour
     void Awake()
     {
         gameOverPanel.SetActive(false);
-        instance = this;
+        Instance = this;
     }
 
     private void Start()
@@ -91,4 +91,8 @@ public class GameOverScript : MonoBehaviour
     }
   
 
+    public static bool GetIsRestarting()
+    {
+        return isRestarting;
+    }
 }
