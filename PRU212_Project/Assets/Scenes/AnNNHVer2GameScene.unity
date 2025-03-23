@@ -4390,6 +4390,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5492787934391471441, guid: 7c9631c66e0a5f94291aa817b7704813, type: 3}
+      propertyPath: shop
+      value: 
+      objectReference: {fileID: 982155489}
+    - target: {fileID: 5492787934391471441, guid: 7c9631c66e0a5f94291aa817b7704813, type: 3}
+      propertyPath: shopPanel.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5492787934391471441, guid: 7c9631c66e0a5f94291aa817b7704813, type: 3}
+      propertyPath: shopPanelGO.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8077431041900519075, guid: 7c9631c66e0a5f94291aa817b7704813, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -8194,7 +8206,7 @@ Tilemap:
       - {fileID: 21300000, guid: fbc251e7a3f2a432ab69caef40c0edc9, type: 3}
       - {fileID: 21300000, guid: 658ad0f09bbb147f9a23271d119d91b3, type: 3}
       - {fileID: 21300000, guid: 7b8fc1fe2873a48cfb18db6093c125ac, type: 3}
-      m_AnimationSpeed: 6
+      m_AnimationSpeed: 6.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 19, y: 16, z: 0}

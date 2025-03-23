@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         coinCollider.enabled = true; // Enable collection
     }
 
-    public int GetCointCoutn()
+    public int GetCointCount()
     {
         return score;
     }

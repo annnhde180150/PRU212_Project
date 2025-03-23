@@ -7,6 +7,7 @@ public class Cate : MonoBehaviour
     public Animator animator;
     private bool isPlayerNear = false;
     public GameObject shop;
+    private PlayerController playerController;
     void Start()
     {
     }
@@ -16,7 +17,15 @@ public class Cate : MonoBehaviour
     {
         if (isPlayerNear && (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)))
         {
+            int coins =GameManager.instant.GetCointCount();
+            ShopManager.instance.Addcoins(coins);
             shop.SetActive(true);
+            //Disable player movement
+            if (playerController != null)
+            {
+                playerController.enabled = false;
+            }
+
         }
     }
 
