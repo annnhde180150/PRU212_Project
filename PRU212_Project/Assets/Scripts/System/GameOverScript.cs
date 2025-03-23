@@ -39,10 +39,10 @@ public class GameOverScript : MonoBehaviour
         gameOverPanel.SetActive(true);
 
         //Disable player movement
-        if (playerController != null)
-        {
-            playerController.enabled = false; 
-        }
+        //if (playerController != null)
+        //{
+        //    playerController.enabled = false; 
+        //}
 
     }
 
@@ -60,11 +60,16 @@ public class GameOverScript : MonoBehaviour
 
         //respawn all monster
         var spawner = enemyManager.GetComponent<EnemySpawner>();
-        foreach(Transform child in spawner.transform) 
-            Destroy(child.gameObject);
-        spawner.StopRespawning();
-        for (int i =0; i < spawner.types.Length; i++)
-            StartCoroutine(spawner.Spawn(spawner.types[i], spawner.spawns[i], 0, spawner.ranges[i]));
+
+        if (spawner != null)
+        {
+            foreach (Transform child in spawner.transform)
+                Destroy(child.gameObject);
+            spawner.StopRespawning();
+            for (int i = 0; i < spawner.types.Length; i++)
+                StartCoroutine(spawner.Spawn(spawner.types[i], spawner.spawns[i], 0, spawner.ranges[i]));
+        }
+       
 
         Debug.Log("Load Checkpoint");
     }
