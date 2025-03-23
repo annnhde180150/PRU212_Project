@@ -4,12 +4,13 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour, IData
 {
-    private int score = 0;
+    public int score = 0;
     [SerializeField] private TextMeshProUGUI scoreText;
     private int coinsToDrop;
     public GameObject coinPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public static GameManager instant;
+    private string currentLevel;
     void Awake()
     {
         instant = this;
@@ -27,11 +28,16 @@ public class GameManager : MonoBehaviour, IData
 
     public void LoadData(GameData gameData)
     {
-        this.score = gameData.score;
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != gameData.currentLevel)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(gameData.currentLevel);
+        }
+        score = gameData.score;
     }
     public void SaveData(ref GameData gameData)
     {
-        gameData.score = this.score;
+        gameData.score = score;
+        gameData.currentLevel = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
     }
     public void addScore(int point)
     {
@@ -81,4 +87,7 @@ public class GameManager : MonoBehaviour, IData
         score -= coins;
         updateScore();
     }
+
+
+
 }

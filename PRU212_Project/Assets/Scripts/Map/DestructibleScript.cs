@@ -21,7 +21,6 @@ public class DestructibleScript : MonoBehaviour
         {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
-            print("isSpecialAttack: " + player.isSpecialAttack);
             if (player.isDashing || player.isSpecialAttack)
             {
 

@@ -8,8 +8,7 @@ public class PlayerManager : MonoBehaviour, IData
 
     private void Awake()
     {
-        //lastCheckPointPos = this.gameObject.transform.position;
-        //transform.position = lastCheckPointPos;
+        
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,14 +32,14 @@ public class PlayerManager : MonoBehaviour, IData
 
 
     }
+
     public void LoadData(GameData gameData)
     {
         lastCheckPointPos = gameData.checkpointPos;
         transform.position = lastCheckPointPos;
-
     }
     public void SaveData(ref GameData gameData)
     {
-        gameData.checkpointPos = lastCheckPointPos;
+         gameData.checkpointPos = lastCheckPointPos;
     }
 }

@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeathManager : MonoBehaviour
+public class HeathManager : MonoBehaviour, IData
 {
     [Header("Heath Settings")]
     public static HeathManager instance;
     [SerializeField] private int maxHealth = 6;
     public static int health = 3;
-    private static int gameheart = 3;
+    private static int gameHeart = 3;
     public Image[] heart;
     [SerializeField] public Sprite fullHeart;
     [SerializeField] public Sprite emptyHeart;
@@ -55,19 +55,34 @@ public class HeathManager : MonoBehaviour
     {      
         health += healthAmount;
         health = Mathf.Clamp(health, 0, instance.maxHealth);
-        if(health > gameheart)
+        if(health > gameHeart)
         {
-            gameheart = health;
+            gameHeart = health;
         }
         instance.UpdateHealthUI();
     }
     public static int GetGameHeart()
     {
-        return gameheart;
+        return gameHeart;
     }
 
     public static int GetHeart()
     {
         return health;
     }
+
+
+    public void LoadData(GameData gameData)
+    {
+        health = gameData.health;
+        gameHeart = gameData.gameHeart;
+        UpdateHealthUI();
+    }
+
+    public void SaveData(ref GameData gameData)
+    {
+        gameData.health = health;
+        gameData.gameHeart = gameHeart;
+    }
+
 }

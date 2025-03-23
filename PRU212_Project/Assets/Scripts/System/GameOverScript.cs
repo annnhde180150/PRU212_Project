@@ -7,12 +7,16 @@ public class GameOverScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject enemyManager;
+    public static GameOverScript instance;
     private bool isGameOver = false;
     public GameObject player;
+    public GameObject firstCheckpoint;
     private PlayerController playerController;
+    public static bool isRestarting = false;
     void Awake()
     {
         gameOverPanel.SetActive(false);
+        instance = this;
     }
 
     private void Start()
@@ -74,6 +78,7 @@ public class GameOverScript : MonoBehaviour
         {
             playerController.enabled = false;
         }
+        isRestarting = true;
         HeathManager.ReloadHealth();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
@@ -84,5 +89,6 @@ public class GameOverScript : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
-   
+  
+
 }

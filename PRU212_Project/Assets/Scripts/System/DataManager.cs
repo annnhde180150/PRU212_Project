@@ -11,7 +11,6 @@ public class DataManager : MonoBehaviour
     private static GameData _gameData;
     private List<IData> _dataObjects;
     private FileDataHandler _fileDataHandler;
-
     private void Awake()
     {
         if (Instance != null)
@@ -19,6 +18,8 @@ public class DataManager : MonoBehaviour
            Debug.Log("Found more DataManager in the scene.");
         }
         Instance = this;
+
+      
     }
 
     private void Start()
@@ -46,11 +47,21 @@ public class DataManager : MonoBehaviour
             NewGame();
         }
 
+        if (GameOverScript.isRestarting)
+        {
+            GameOverScript.isRestarting = false; 
+            Debug.Log("Restarting game");
+            NewGame();
+        }
+
+
         foreach (var dataObject in _dataObjects)
         {
             dataObject.LoadData(_gameData);
         }
-        print("Loaded coin: " + _gameData.score);
+        Debug.Log("Loaded coin: " + _gameData.score);
+        Debug.Log("Loaded saved at: " + _gameData.checkpointPos);
+        Debug.Log("Loaded scene: " + _gameData.currentLevel);
     }
 
     public void SaveGame()
@@ -63,8 +74,10 @@ public class DataManager : MonoBehaviour
         {
             dataObject.SaveData(ref _gameData);
         }
-        print("Saved coin: " + _gameData.score);
+        Debug.Log("Saved coin: " + _gameData.score);
         Debug.Log("Checkpoint saved at: " + _gameData.checkpointPos);
+        Debug.Log("Saved scene: " + _gameData.currentLevel);
+
 
         _fileDataHandler.Save(_gameData);
     }
