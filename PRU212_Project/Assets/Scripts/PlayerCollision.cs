@@ -65,7 +65,7 @@ public class PlayerCollision : MonoBehaviour
                 }
                 else
                 {
-                    if (gameManager.GetCointCoutn() > 0)
+                    if (gameManager.GetCointCount() > 0)
                     {
                         gameManager.DropCoins(collision.transform.position);
                         gameManager.addScore(-3);
