@@ -18,6 +18,12 @@ public class PlayerCollision : MonoBehaviour
             Destroy(collision.gameObject);
             gameManager.addScore(1);
         }
+
+        //if (collision.CompareTag("BossHand"))
+        //{
+        //    Destroy(collision.gameObject);
+        //    player.isSpecialAttack = true;
+        //}
         //if(collision.CompareTag("Enemy"))
         //{
         //    Debug.Log("Hit enemy");
