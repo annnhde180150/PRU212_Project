@@ -172,7 +172,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ranarh_ChippedStone_Frames (1)_0: 7253635034102471146
+      Ranarh_ChippedStone_Frames (1)_1: 7544211946470215137
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
