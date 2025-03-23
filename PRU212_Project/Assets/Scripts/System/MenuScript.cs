@@ -17,9 +17,24 @@ public class MenuScript : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("GameScene");
+        GameData gameData = DataManager.Instance.GetGameData();
+        if (gameData == null || string.IsNullOrEmpty(gameData.currentLevel))
+        {
+            Debug.LogWarning("No save data found! Loading default scene...");
+            SceneManager.LoadScene("GameScene"); // Default scene
+        }
+        else
+        {
+            SceneManager.LoadScene(gameData.currentLevel);
+        }
     }
-
+    public void NewGame()
+    {
+        GameData newGameData = new GameData();
+        DataManager.Instance.SetGameData(newGameData);
+        DataManager.Instance.SaveGame();
+        SceneManager.LoadScene(newGameData.currentLevel);
+    }
     public void QuitGame()
     {
         Application.Quit();

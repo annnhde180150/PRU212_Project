@@ -98,4 +98,9 @@ public class DataManager : MonoBehaviour
     {
         return _gameData;
     }
+
+    public void SetGameData(GameData newGameData)
+    {
+        _gameData = newGameData;
+    }
 }
