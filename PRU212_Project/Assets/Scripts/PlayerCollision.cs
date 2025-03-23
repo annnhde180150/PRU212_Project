@@ -13,10 +13,35 @@ public class PlayerCollision : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        var gameOver = FindAnyObjectByType<GameOverScript>();
         if (collision.CompareTag("Coin"))
         {
             Destroy(collision.gameObject);
             gameManager.addScore(1);
+        }
+
+        if (collision.CompareTag("Boss"))
+        {
+            //- boss damage
+            var enemy = collision.GetComponentInParent<Bullet>();
+            var enemy2 = collision.GetComponentInParent<BossHand>();
+            var damage = enemy == null? enemy2.Damage : enemy._Damage;
+            HeathManager.TakeDamage((int)damage);
+            PlayerController.playHurtsound();
+            if (HeathManager.health <= 0)
+            {
+                gameOver.GameOver();
+            }
+            else
+            {
+                if (gameManager.GetCointCount() > 0)
+                {
+                    gameManager.DropCoins(collision.transform.position);
+                    gameManager.addScore(-3);
+                    Debug.Log("Hit enemy");
+                }
+                StartCoroutine(GetHurt());
+            }
         }
 
         //if (collision.CompareTag("BossHand"))
@@ -36,10 +61,10 @@ public class PlayerCollision : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        var gameOver = FindAnyObjectByType<GameOverScript>();
         if (collision.collider.CompareTag("Enemy"))
         {
             var enemy = collision.collider.GetComponent<Enemy>();
-            var gameOver = FindAnyObjectByType<GameOverScript>();
             if (player.isSpecialAttack)
             {
                 enemy.isDead = true;
@@ -101,6 +126,69 @@ public class PlayerCollision : MonoBehaviour
             else
             {
                 enemy.isStunned = true;
+            }
+        }
+
+        //boss
+        if (collision.collider.CompareTag("Boss"))
+        {
+            var enemy = collision.collider.GetComponent<BossEnemy>();
+            var baseStat = collision.collider.GetComponent<Enemy>();
+            if (player.isSpecialAttack)
+            {
+                //enemy.isDead = true;
+                //gameManager.addScore(1);
+            }
+            else
+            if (!enemy.isStunned && !enemy.isDead)
+            {
+                HeathManager.TakeDamage((int)baseStat.damage);
+                PlayerController.playHurtsound();
+                if (HeathManager.health <= 0)
+                {
+                    gameOver.GameOver();
+                }
+                else
+                {
+                    if (gameManager.GetCointCount() > 0)
+                    {
+                        gameManager.DropCoins(collision.transform.position);
+                        gameManager.addScore(-3);
+                        Debug.Log("Hit enemy");
+                    }
+                    StartCoroutine(GetHurt());
+                }
+            }
+        }
+        if (collision.collider.CompareTag("BossHead"))
+        {
+            var enemy = collision.collider.GetComponentInParent<Enemy>();
+            var baseStat = collision.collider.GetComponent<Enemy>();
+            if (enemy.isStunned && player.isSpecialAttack)
+            {
+                enemy.health -= 2;
+            }else if (enemy.isStunned)
+            {
+                enemy.health -= 1;
+            }
+            else
+            {
+                HeathManager.TakeDamage((int)baseStat.damage);
+                PlayerController.playHurtsound();
+                if (HeathManager.health <= 0)
+                {
+                    gameOver.GameOver();
+                }
+                else
+                {
+                    if (gameManager.GetCointCount() > 0)
+                    {
+                        gameManager.DropCoins(collision.transform.position);
+                        gameManager.addScore(-3);
+                        Debug.Log("Hit enemy");
+                    }
+                    StartCoroutine(GetHurt());
+                }
             }
         }
     }

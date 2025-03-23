@@ -6,13 +6,15 @@ public class Bullet : MonoBehaviour
     [SerializeField] AudioClip start;
     [SerializeField] public float speed = 10f;
     [SerializeField] public float ExistLimit = 4f;
+    public int _Damage;
     private AudioSource audio;
     private Vector3 direction; // Direction to the target
     private float angle; // Angle to rotate the bullet
     private float existTime;
 
-    public void SetTarget(Vector3 target, Vector3 firePoint)
+    public void SetTarget(Vector3 target, Vector3 firePoint, int Damage)
     {
+        _Damage = Damage;
         audio = GetComponent<AudioSource>();
         direction = (target - firePoint).normalized;
 
@@ -39,6 +41,6 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag.Equals("Player"))
-            Destroy(gameObject);
+            Destroy(gameObject,0.2f);
     }
 }

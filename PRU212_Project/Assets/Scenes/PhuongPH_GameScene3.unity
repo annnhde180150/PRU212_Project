@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &224110883 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1719236970548530568, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+  m_PrefabInstance: {fileID: 714478477}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &224313569
 GameObject:
   m_ObjectHideFlags: 0
@@ -14471,7 +14476,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8688229801061481411, guid: e1bb8eb3656490b4b86f9ca76b3b85b1, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[1].second.m_AnimationSpeed
-      value: 6.0000005
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8688229801061481411, guid: e1bb8eb3656490b4b86f9ca76b3b85b1, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[2].second.m_AnimationSpeed
@@ -14514,17 +14519,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 736979619616344455, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1719236970548530568, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1719236970548530568, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: m_TagString
+      value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 4718521762259712135, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5069073030479026858, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 5730358786720886415, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
-      propertyPath: Melee
+      propertyPath: hand
       value: 
-      objectReference: {fileID: 8300000, guid: 4e3ff764ca581a74d89f25c7501674db, type: 3}
+      objectReference: {fileID: 224110883}
     - target: {fileID: 5730358786720886415, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
       propertyPath: health
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6434262446775628240, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296216171616838179, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.2648778
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296216171616838179, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.2427
       objectReference: {fileID: 0}
     - target: {fileID: 8420446076217574343, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14566,9 +14599,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8664651387349583554, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 8734333008758205346, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
       propertyPath: m_Name
       value: newBoss
+      objectReference: {fileID: 0}
+    - target: {fileID: 8734333008758205346, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8734333008758205346, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: m_TagString
+      value: Boss
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
