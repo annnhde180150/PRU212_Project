@@ -7,6 +7,7 @@ public class HeathManager : MonoBehaviour
     public static HeathManager instance;
     [SerializeField] private int maxHealth = 6;
     public static int health = 3;
+    private static int gameheart = 3;
     public Image[] heart;
     [SerializeField] public Sprite fullHeart;
     [SerializeField] public Sprite emptyHeart;
@@ -51,9 +52,22 @@ public class HeathManager : MonoBehaviour
     }
 
     public static void AddHealth(int healthAmount)
-    {
+    {      
         health += healthAmount;
         health = Mathf.Clamp(health, 0, instance.maxHealth);
+        if(health > gameheart)
+        {
+            gameheart = health;
+        }
         instance.UpdateHealthUI();
+    }
+    public static int GetGameHeart()
+    {
+        return gameheart;
+    }
+
+    public static int GetHeart()
+    {
+        return health;
     }
 }

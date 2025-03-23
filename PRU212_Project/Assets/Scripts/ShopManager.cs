@@ -1,14 +1,16 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
-    public int coins;
     public TMP_Text coinsUi;
     public GameObject shop;
     public ShopItemSo[] shopItemsSO;
     public GameObject[] shopPanelGO;
     public ShopTemplate[] shopPanel;
+    public Button[] purchaseBtn;
     private PlayerController playerController;
     public static ShopManager instance;
 
@@ -32,13 +34,34 @@ public class ShopManager : MonoBehaviour
 
     }
 
+    //Add coins to shop
     public void Addcoins(int coins)
     {        
         coinsUi.text = "Coin:" + coins.ToString();
     }
 
+    //check if player can purchase item
+    public void CheckPuchaseBtn(int coins)
+    {
+        for (int i = 0; i < shopItemsSO.Length; i++)
+        {
+            if (coins >= shopItemsSO[i].baseCost)
+            {
+                purchaseBtn[i].interactable = true;
+            }
+            else
+            {
+                purchaseBtn[i].interactable = false;
+            }
+        }
+    }
+
+    //initiate shop panel
     public void LoadPanel()
     {
+        int coins = GameManager.instant.GetCointCount();
+        Addcoins(coins);
+        CheckPuchaseBtn(coins);
         for (int i = 0; i < shopItemsSO.Length; i++)
         {
             shopPanel[i].titleTxt.text = shopItemsSO[i].title;
@@ -47,6 +70,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    // Exit button
     public void ExitBtn()
     {
         shop.SetActive(false);
@@ -54,5 +78,25 @@ public class ShopManager : MonoBehaviour
         {
             playerController.enabled = true;
         }
-    } 
+    }
+
+    //Purchase heart button
+    public void PurchaseHeart()
+    {
+        HeathManager.AddHealth(1);
+        GameManager.instant.addScore(-5);
+        LoadPanel();
+    }
+
+    public void PurchaseFullGeneration()
+    {
+        int gameheart = HeathManager.GetGameHeart();
+        int heart = HeathManager.GetHeart();
+        if(heart < gameheart)
+        {
+            HeathManager.AddHealth(gameheart - heart);
+            GameManager.instant.addScore(-10);
+        }       
+        LoadPanel();
+    }
 }

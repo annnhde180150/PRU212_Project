@@ -66,4 +66,10 @@ public class GameManager : MonoBehaviour
     {
         return score;
     }
+
+    public void MinusCoin(int coins)
+    {
+        score -= coins;
+        updateScore();
+    }
 }

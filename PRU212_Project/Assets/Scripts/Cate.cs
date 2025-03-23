@@ -18,14 +18,14 @@ public class Cate : MonoBehaviour
         if (isPlayerNear && (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)))
         {
             int coins =GameManager.instant.GetCointCount();
-            ShopManager.instance.Addcoins(coins);
             shop.SetActive(true);
+            ShopManager.instance.Addcoins(coins);
+            ShopManager.instance.CheckPuchaseBtn(coins);
             //Disable player movement
             if (playerController != null)
             {
                 playerController.enabled = false;
             }
-
         }
     }
 
