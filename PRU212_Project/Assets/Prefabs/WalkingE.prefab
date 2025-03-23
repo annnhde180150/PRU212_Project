@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3318801226416770131}
   - component: {fileID: 5909374396207535172}
   - component: {fileID: 1939604457131171232}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: WalkingEnemyHead
   m_TagString: EnemyHead
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5615922683645080698}
   - component: {fileID: 7739811115326192253}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: WalkingERange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 1991671495718943529}
   - component: {fileID: 6840872339662782804}
   - component: {fileID: 8834556615945707203}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WalkingE
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -362,6 +362,7 @@ MonoBehaviour:
   animation: {fileID: 1991671495718943529}
   isDead: 0
   isStunned: 0
+  range: 0
   spawnPosition: {x: 3.2615814, y: -2.8141108, z: 0}
   type: 
   deathSound: {fileID: 8300000, guid: 328763bc966b64b91bd57907bd828b53, type: 3}

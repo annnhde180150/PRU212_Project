@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3180301163194467557}
   - component: {fileID: 3230835148309045468}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FlyingERange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 5125536483062767010}
   - component: {fileID: 1953682359981695248}
   - component: {fileID: 8592226209042312564}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FlyingE
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -228,6 +228,7 @@ MonoBehaviour:
   animation: {fileID: 5125536483062767010}
   isDead: 0
   isStunned: 0
+  range: 0
   spawnPosition: {x: -2.298418, y: -2.994111, z: 0}
   type: 
   deathSound: {fileID: 8300000, guid: 328763bc966b64b91bd57907bd828b53, type: 3}
@@ -403,7 +404,7 @@ GameObject:
   - component: {fileID: 7824682483165013014}
   - component: {fileID: 6500412769994557573}
   - component: {fileID: 1902426773923013980}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: FlyingEnemyHead
   m_TagString: EnemyHead
   m_Icon: {fileID: 0}
