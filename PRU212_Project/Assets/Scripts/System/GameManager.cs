@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IData
 {
     private int score = 0;
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -18,6 +18,15 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void LoadData(GameData gameData)
+    {
+        this.score = gameData.score;
+    }
+    public void SaveData(ref GameData gameData)
+    {
+        gameData.score = this.score;
     }
     public void addScore(int point)
     {

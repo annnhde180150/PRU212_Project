@@ -3,13 +3,14 @@ using UnityEngine;
 public class CheckPointScript : MonoBehaviour
 {
     private GameOverScript gameOverScript;
-    private void Awake()
+    void Awake()
     {
+        //transform.position = PlayerManager.lastCheckPointPos;
+
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -26,4 +27,6 @@ public class CheckPointScript : MonoBehaviour
             PlayerManager.lastCheckPointPos = transform.position; 
         }
     }
+
+  
 }
