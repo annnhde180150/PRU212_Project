@@ -7,9 +7,16 @@ using UnityEngine.UIElements;
 
 public class BossEnemy : Enemy
 {
+    public static float damage = 1f;
     [Header("Attack")]
     [SerializeField] private Transform _firePoint;
+    [SerializeField] private Transform laserPoint;
+    [SerializeField] protected GameObject hand;
     [SerializeField] protected GameObject bulletPrefab;
+    [SerializeField] protected GameObject laserPrefab;
+    [SerializeField] protected AudioClip RampSound;
+    [SerializeField] protected AudioClip Enhancing;
+    [SerializeField] protected AudioClip Melee;
     protected bool isShooting = false;
 
     [SerializeField] private float laserTime = 4f;
@@ -30,7 +37,7 @@ public class BossEnemy : Enemy
         offsetY = _firePoint.position.y - transform.position.y;
         tr.emitting = false;
         tr.enabled = true;
-        isDead = true;
+        hand.GetComponent<BoxCollider2D>().enabled = false;
     }
 
     // Update is called once per frame
@@ -62,7 +69,7 @@ public class BossEnemy : Enemy
         }else StartCoroutine(Die());
     }
 
-    //work
+    //work no sound
     IEnumerator Shielding()
     {
         canMove = false;
@@ -71,6 +78,7 @@ public class BossEnemy : Enemy
 
         // Continuously update stateInfo inside the loop
         stateInfo = animation.GetCurrentAnimatorStateInfo(0);
+        audioSource.PlayOneShot(Enhancing);
         yield return new WaitForSeconds(stateInfo.length);
         isImmuned = true;
 
@@ -98,6 +106,7 @@ public class BossEnemy : Enemy
             direction = flip();
         }
         animation.speed = 0;
+        audioSource.PlayOneShot(RampSound);
         yield return new WaitForSeconds(1f);
         canStop = false;
         tr.emitting = true;
@@ -114,7 +123,7 @@ public class BossEnemy : Enemy
         canMove = true;
     }
 
-    //work partly
+    //work
     IEnumerator ShootArm()
     {
         //start shooting
@@ -129,7 +138,7 @@ public class BossEnemy : Enemy
         
         //render bullet
         var playPos = GameObject.Find("Player").transform.position;
-        var newFirePoint = new Vector3(_firePoint.position.x + offsetX, _firePoint.position.y + offsetY - 1, 0);
+        var newFirePoint = new Vector3(_firePoint.position.x + offsetX*(-direction), _firePoint.position.y - offsetY, 0);
         var bullet = Instantiate(bulletPrefab, newFirePoint, _firePoint.rotation);
         bullet.GetComponent<Bullet>().SetTarget(playPos, _firePoint.position);
 
@@ -138,20 +147,23 @@ public class BossEnemy : Enemy
         canMove = true;
     }
 
-    //work
+    //not work
     IEnumerator meleeAttack()
     {
         canMove = false;
         isMelee = true;
         animation.SetBool("isMeleeAttack", true);
+        hand.GetComponent<BoxCollider2D>().enabled = true;
         yield return null;
 
         // Continuously update stateInfo inside the loop
         stateInfo = animation.GetCurrentAnimatorStateInfo(0);
+        audioSource.PlayOneShot(Melee);
         yield return new WaitForSeconds(stateInfo.length);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
 
         animation.SetBool("isMeleeAttack", false);
+        hand.GetComponent<BoxCollider2D>().enabled = false;
         isMelee = false;
         canMove = true;
     }
@@ -173,19 +185,24 @@ public class BossEnemy : Enemy
         canMove = true;
     }
 
+    //not work
     IEnumerator Lasering()
     {
         canMove = false;
         animation.SetBool("IsLaser", true);
         yield return null;
 
+        var playPos = GameObject.Find("Player").transform.position;
+        var laser = Instantiate(laserPrefab, laserPoint.transform.position, _firePoint.rotation);
+        //bullet.GetComponent<Bullet>().SetTarget(playPos, _firePoint.position);
         yield return new WaitForSeconds(laserTime);
 
+        yield return StartCoroutine(laser.GetComponent<Laser>().End());
         animation.SetBool("IsLaser", false);
         canMove = true;
     }
 
-    //not work
+    //work
     IEnumerator Die()
     {
         if (isDying) yield break;
@@ -203,9 +220,10 @@ public class BossEnemy : Enemy
             c.enabled = false;
         }
 
+        audioSource.PlayOneShot(deathSound);
         stateInfo = animation.GetCurrentAnimatorStateInfo(0);
         yield return new WaitForSeconds(stateInfo.length);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.8f);
         animation.speed = 0;
     }
 
