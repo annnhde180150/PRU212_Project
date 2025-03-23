@@ -1,10 +1,10 @@
 {
-    "score": 3,
+    "score": 2,
     "checkpointPos": {
-        "x": 10.089998245239258,
-        "y": 1.0999999046325684
+        "x": -14.329999923706055,
+        "y": 1.4900000095367432
     },
-    "health": 2,
-    "gameHeart": 3,
+    "health": 3,
+    "gameHeart": 4,
     "currentLevel": "GameScene"
 }
