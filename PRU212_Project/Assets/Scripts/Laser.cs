@@ -21,12 +21,13 @@ public class Laser : MonoBehaviour
         animation = GetComponent<Animator>();
         stateInfo = animation.GetCurrentAnimatorStateInfo(0);
         GetComponent<BoxCollider2D>().enabled = false;
+        var player = GameObject.Find("Player").transform.position;
         audio.PlayOneShot(start);
 
         StartCoroutine(Lasering());
         left = GameObject.Find("leftTarget").transform;
         right = GameObject.Find("rightTarget").transform;
-        StartCoroutine(RotateLaser(laserTime, left, right));
+        StartCoroutine(RotateLaser(laserTime, left, right,right.position.x - player.x < left.position.x - player.x));
     }
 
     // Update is called once per frame
@@ -54,11 +55,21 @@ public class Laser : MonoBehaviour
         Destroy(gameObject);
     }
 
-    IEnumerator RotateLaser(float rotationDuration, Transform left, Transform right)
+    IEnumerator RotateLaser(float rotationDuration, Transform left, Transform right, bool rotateRight)
     {
         float elapsedTime = 0f;
-        float startAngle = Mathf.Atan2(left.position.y - transform.position.y, left.position.x - transform.position.x) * Mathf.Rad2Deg;
-        float endAngle = Mathf.Atan2(right.position.y - transform.position.y, right.position.x - transform.position.x) * Mathf.Rad2Deg;
+        float startAngle, endAngle;
+
+        if (rotateRight)
+        {
+            startAngle = Mathf.Atan2(left.position.y - transform.position.y, left.position.x - transform.position.x) * Mathf.Rad2Deg;
+            endAngle = Mathf.Atan2(right.position.y - transform.position.y, right.position.x - transform.position.x) * Mathf.Rad2Deg;
+        }
+        else
+        {
+            startAngle = Mathf.Atan2(right.position.y - transform.position.y, right.position.x - transform.position.x) * Mathf.Rad2Deg;
+            endAngle = Mathf.Atan2(left.position.y - transform.position.y, left.position.x - transform.position.x) * Mathf.Rad2Deg;
+        }
 
         while (elapsedTime < rotationDuration)
         {
@@ -68,9 +79,6 @@ public class Laser : MonoBehaviour
             yield return null;
         }
 
-        // Ensure it reaches exactly the final angle
         transform.rotation = Quaternion.Euler(0, 0, endAngle);
     }
-
-
 }

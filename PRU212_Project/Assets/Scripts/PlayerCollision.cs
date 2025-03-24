@@ -161,15 +161,17 @@ public class PlayerCollision : MonoBehaviour
         }
         if (collision.collider.CompareTag("BossHead"))
         {
-            var enemy = collision.collider.GetComponentInParent<Enemy>();
+            var enemy = collision.collider.GetComponentInParent<BossEnemy>();
             var baseStat = collision.collider.GetComponentInParent<Enemy>();
             if (enemy.isStunned && player.isSpecialAttack)
             {
                 enemy.health -= 2;
+                enemy.getHurt();
             }
             else if (enemy.isStunned)
             {
                 enemy.health -= 1;
+                enemy.getHurt();
             }
             else
             {
