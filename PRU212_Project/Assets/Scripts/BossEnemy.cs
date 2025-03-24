@@ -1,6 +1,7 @@
 using NUnit.Framework.Constraints;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,6 +19,8 @@ public class BossEnemy : Enemy
     [SerializeField] protected AudioClip Enhancing;
     [SerializeField] protected AudioClip Melee;
     [SerializeField] protected AudioClip Hurt;
+    [SerializeField] protected AudioClip winning;
+    [SerializeField] protected AudioSource mainMusic;
     protected bool isShooting = false;
 
     [SerializeField] private float laserTime = 4f;
@@ -31,6 +34,7 @@ public class BossEnemy : Enemy
     private float offsetX;
     private float offsetY;
     private Coroutine playing;
+    private Coroutine action;
     private Vector3 spawn;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -239,6 +243,8 @@ public class BossEnemy : Enemy
         animation.SetBool("isDead", true);
         //yield return new WaitForSeconds(0.8f);
 
+        mainMusic.clip = winning;
+        mainMusic.Play();
         DoorScript door = FindFirstObjectByType<DoorScript>();
         if (door != null)
         {
@@ -253,20 +259,20 @@ public class BossEnemy : Enemy
 
     IEnumerator PatternAttacking()
     {
-        yield return StartCoroutine(Shielding());
+        yield return action = StartCoroutine(Shielding());
         yield return new WaitForSeconds(2.0f);
 
-        yield return StartCoroutine(ShootArm());
-        yield return StartCoroutine(ShootArm());
-        yield return StartCoroutine(ShootArm());
+        yield return action = StartCoroutine(ShootArm());
+        yield return action = StartCoroutine(ShootArm());
+        yield return action = StartCoroutine(ShootArm());
         yield return new WaitForSeconds(2.0f);
 
-        yield return StartCoroutine(meleeAttack());
+        yield return action = StartCoroutine(meleeAttack());
         yield return new WaitForSeconds(2.0f);
 
-        yield return StartCoroutine(Lasering());
-        yield return StartCoroutine(Rolling());
-        yield return StartCoroutine(Stun());
+        yield return action = StartCoroutine(Lasering());
+        yield return action = StartCoroutine(Rolling());
+        yield return action = StartCoroutine(Stun());
         yield return new WaitForSeconds(2.0f);
 
         //finish pattern
@@ -284,6 +290,7 @@ public class BossEnemy : Enemy
     {
         transform.position = spawn;
         StopCoroutine(playing);
+        StopCoroutine(action);
         isPatternAttacking = false;
         isShooting = false;
         isMelee = false;
@@ -291,6 +298,14 @@ public class BossEnemy : Enemy
         canStop = true;
         isImmuned = false;
         health = 10;
+
+        animation.SetBool("IsLaser", false);
+        animation.SetBool("isStunt", false);
+        animation.SetBool("isMeleeAttack", false);
+        animation.SetBool("isShooting", false);
+        hand.GetComponent<BoxCollider2D>().enabled = false;
+        animation.SetBool("isImmune", false);
+        animation.SetBool("isShielded", false);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

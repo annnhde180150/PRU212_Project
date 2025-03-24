@@ -15462,6 +15462,14 @@ PrefabInstance:
       propertyPath: health
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5730358786720886415, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: winning
+      value: 
+      objectReference: {fileID: 8300000, guid: 8bb14fa17a458c44aa5d0e2bbfdb2b4f, type: 3}
+    - target: {fileID: 5730358786720886415, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: mainMusic
+      value: 
+      objectReference: {fileID: 832886063}
     - target: {fileID: 8420446076217574343, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.12
