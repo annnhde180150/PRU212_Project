@@ -7,9 +7,6 @@ public class Laser : MonoBehaviour
     [SerializeField] AudioClip start;
     [SerializeField] AudioClip mid;
     [SerializeField] AudioClip end;
-    [SerializeField] Transform left;
-    [SerializeField] Transform right;
-    public float laserTime;
     AudioSource audio;
     Animator animation;
     AnimatorStateInfo stateInfo;
@@ -20,13 +17,8 @@ public class Laser : MonoBehaviour
         audio = GetComponent<AudioSource>();
         animation = GetComponent<Animator>();
         stateInfo = animation.GetCurrentAnimatorStateInfo(0);
-        GetComponent<BoxCollider2D>().enabled = false;
         audio.PlayOneShot(start);
-
         StartCoroutine(Lasering());
-        left = GameObject.Find("leftTarget").transform;
-        right = GameObject.Find("rightTarget").transform;
-        StartCoroutine(RotateLaser(laserTime, left, right));
     }
 
     // Update is called once per frame
@@ -38,7 +30,6 @@ public class Laser : MonoBehaviour
     IEnumerator Lasering()
     {
         yield return new WaitForSeconds(stateInfo.length);
-        GetComponent<BoxCollider2D>().enabled = true;
         audio.clip = mid;
         audio.loop = true;  // Ensure looping
         audio.Play();
@@ -53,24 +44,4 @@ public class Laser : MonoBehaviour
         yield return new WaitForSeconds(end.length);
         Destroy(gameObject);
     }
-
-    IEnumerator RotateLaser(float rotationDuration, Transform left, Transform right)
-    {
-        float elapsedTime = 0f;
-        float startAngle = Mathf.Atan2(left.position.y - transform.position.y, left.position.x - transform.position.x) * Mathf.Rad2Deg;
-        float endAngle = Mathf.Atan2(right.position.y - transform.position.y, right.position.x - transform.position.x) * Mathf.Rad2Deg;
-
-        while (elapsedTime < rotationDuration)
-        {
-            float zRotation = Mathf.Lerp(startAngle, endAngle, elapsedTime / rotationDuration);
-            transform.rotation = Quaternion.Euler(0, 0, zRotation);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Ensure it reaches exactly the final angle
-        transform.rotation = Quaternion.Euler(0, 0, endAngle);
-    }
-
-
 }

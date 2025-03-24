@@ -23,8 +23,9 @@ public class PlayerCollision : MonoBehaviour
         if (collision.CompareTag("Boss"))
         {
             //- boss damage
-            var boss = collision.GetComponentInParent<Enemy>();
-            float damage = boss.damage;
+            var enemy = collision.GetComponentInParent<Bullet>();
+            var enemy2 = collision.GetComponentInParent<BossHand>();
+            var damage = enemy == null? enemy2.Damage : enemy._Damage;
             HeathManager.TakeDamage((int)damage);
             PlayerController.playHurtsound();
             if (HeathManager.health <= 0)
@@ -162,12 +163,11 @@ public class PlayerCollision : MonoBehaviour
         if (collision.collider.CompareTag("BossHead"))
         {
             var enemy = collision.collider.GetComponentInParent<Enemy>();
-            var baseStat = collision.collider.GetComponentInParent<Enemy>();
+            var baseStat = collision.collider.GetComponent<Enemy>();
             if (enemy.isStunned && player.isSpecialAttack)
             {
                 enemy.health -= 2;
-            }
-            else if (enemy.isStunned)
+            }else if (enemy.isStunned)
             {
                 enemy.health -= 1;
             }

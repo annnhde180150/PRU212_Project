@@ -57,26 +57,21 @@ public class GameOverScript : MonoBehaviour
         {
             playerController.enabled = true; // Re-enable movement
         }
-        var boss = FindAnyObjectByType<BossEnemy>();
-        //respawn all monster
-        if (boss!=null)
-        {
-            boss.reStart();
-        }
-        else
-        {
-            var spawner = enemyManager.GetComponent<EnemySpawner>();
-            if (spawner != null)
-            {
-                foreach (Transform child in spawner.transform)
-                    Destroy(child.gameObject);
-                spawner.StopRespawning();
-                for (int i = 0; i < spawner.types.Length; i++)
-                    StartCoroutine(spawner.Spawn(spawner.types[i], spawner.spawns[i], 0, spawner.ranges[i]));
-            }
-        }
 
-            Debug.Log("Load Checkpoint");
+        //respawn all monster
+        var spawner = enemyManager.GetComponent<EnemySpawner>();
+
+        if (spawner != null)
+        {
+            foreach (Transform child in spawner.transform)
+                Destroy(child.gameObject);
+            spawner.StopRespawning();
+            for (int i = 0; i < spawner.types.Length; i++)
+                StartCoroutine(spawner.Spawn(spawner.types[i], spawner.spawns[i], 0, spawner.ranges[i]));
+        }
+       
+
+        Debug.Log("Load Checkpoint");
     }
 
     public void RestartGame()

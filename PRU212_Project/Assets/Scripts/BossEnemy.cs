@@ -29,8 +29,6 @@ public class BossEnemy : Enemy
     AnimatorStateInfo stateInfo;
     private float offsetX;
     private float offsetY;
-    private Coroutine playing;
-    private Vector3 spawn;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -40,7 +38,6 @@ public class BossEnemy : Enemy
         tr.emitting = false;
         tr.enabled = true;
         hand.GetComponent<BoxCollider2D>().enabled = false;
-        spawn = transform.position;
     }
 
     // Update is called once per frame
@@ -61,7 +58,7 @@ public class BossEnemy : Enemy
             if (!isPatternAttacking)
             {
                 isPatternAttacking = true;
-                playing = StartCoroutine(PatternAttacking());
+                StartCoroutine(PatternAttacking());
             }
             if (health <= 0)
             {
@@ -69,11 +66,10 @@ public class BossEnemy : Enemy
             }
             if (canMove) Move(direction);
             else if (canStop) Stop();
-        }
-        else StartCoroutine(Die());
+        }else StartCoroutine(Die());
     }
 
-    //work
+    //work no sound
     IEnumerator Shielding()
     {
         canMove = false;
@@ -143,7 +139,7 @@ public class BossEnemy : Enemy
         //render bullet
         var playPos = GameObject.Find("Player").transform.position;
         var newFirePoint = new Vector3(_firePoint.position.x + offsetX*(-direction), _firePoint.position.y - offsetY, 0);
-        var bullet = Instantiate(bulletPrefab, newFirePoint, _firePoint.rotation, transform);
+        var bullet = Instantiate(bulletPrefab, newFirePoint, _firePoint.rotation);
         var damage = GetComponent<Enemy>().damage;
         bullet.GetComponent<Bullet>().SetTarget(playPos, _firePoint.position, (int)damage);
 
@@ -152,7 +148,7 @@ public class BossEnemy : Enemy
         canMove = true;
     }
 
-    //work
+    //not work
     IEnumerator meleeAttack()
     {
         canMove = false;
@@ -192,7 +188,7 @@ public class BossEnemy : Enemy
         canMove = true;
     }
 
-    //work
+    //not work
     IEnumerator Lasering()
     {
         canMove = false;
@@ -200,8 +196,7 @@ public class BossEnemy : Enemy
         yield return null;
 
         var playPos = GameObject.Find("Player").transform.position;
-        var laser = Instantiate(laserPrefab, laserPoint.transform.position, _firePoint.rotation, transform);
-        laser.GetComponent<Laser>().laserTime = laserTime;
+        var laser = Instantiate(laserPrefab, laserPoint.transform.position, _firePoint.rotation);
         //bullet.GetComponent<Bullet>().SetTarget(playPos, _firePoint.position);
         yield return new WaitForSeconds(laserTime);
 
@@ -214,12 +209,6 @@ public class BossEnemy : Enemy
     IEnumerator Die()
     {
         if (isDying) yield break;
-        if (playing != null)
-        {
-            StopCoroutine(playing);
-            playing = null;
-        }
-        isDead = true;
         isDying = true;
         canMove = false;
         animation.SetBool("isDead", true);
@@ -227,6 +216,7 @@ public class BossEnemy : Enemy
 
         rb.gravityScale = 0;
         rb.linearVelocity = Vector2.zero;
+
         GetComponent<Collider2D>().enabled = false;
         foreach (Collider2D c in GetComponentsInChildren<Collider2D>())
         {
@@ -235,7 +225,6 @@ public class BossEnemy : Enemy
 
         audioSource.PlayOneShot(deathSound);
         stateInfo = animation.GetCurrentAnimatorStateInfo(0);
-        transform.position = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
         yield return new WaitForSeconds(stateInfo.length);
         yield return new WaitForSeconds(0.8f);
         animation.speed = 0;
@@ -268,12 +257,5 @@ public class BossEnemy : Enemy
         //yield return new WaitForSeconds(5.0f);
         canMove = true;
         isPatternAttacking = false;
-    }
-
-    public void reStart()
-    {
-        transform.position = spawn;
-        StopCoroutine(playing);
-        health = 10;
     }
 }
