@@ -106,4 +106,9 @@ public class ShopManager : MonoBehaviour
         }       
         LoadPanel();
     }
+
+    public void buyHat()
+    {
+        LoadPanel();
+    }
 }
