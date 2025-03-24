@@ -34,11 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 498e9292f42c8aa4fb215121f1c46fb7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.37
+      value: -6.73761
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 498e9292f42c8aa4fb215121f1c46fb7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.88
+      value: -0.18541253
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 498e9292f42c8aa4fb215121f1c46fb7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -152,6 +152,8 @@ MonoBehaviour:
   start: {fileID: 8300000, guid: 6daf1883c99af8b4c816f83ab3a28b40, type: 3}
   mid: {fileID: 8300000, guid: 8e2f63c678cd04f40bd025b53b6acd2e, type: 3}
   end: {fileID: 8300000, guid: 0fd824ff65a25094f914a227b4ab579a, type: 3}
+  left: {fileID: 0}
+  right: {fileID: 0}
 --- !u!82 &-938928364309383789
 AudioSource:
   m_ObjectHideFlags: 0
