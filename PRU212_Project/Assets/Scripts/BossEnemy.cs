@@ -19,6 +19,8 @@ public class BossEnemy : Enemy
     [SerializeField] protected AudioClip Enhancing;
     [SerializeField] protected AudioClip Melee;
     [SerializeField] protected AudioClip Hurt;
+    [SerializeField] protected AudioClip winning;
+    [SerializeField] protected AudioSource mainMusic;
     protected bool isShooting = false;
 
     [SerializeField] private float laserTime = 4f;
@@ -241,6 +243,8 @@ public class BossEnemy : Enemy
         animation.SetBool("isDead", true);
         //yield return new WaitForSeconds(0.8f);
 
+        mainMusic.clip = winning;
+        mainMusic.Play();
         DoorScript door = FindFirstObjectByType<DoorScript>();
         if (door != null)
         {
