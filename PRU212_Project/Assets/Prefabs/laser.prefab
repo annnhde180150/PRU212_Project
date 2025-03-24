@@ -34,11 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 498e9292f42c8aa4fb215121f1c46fb7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.73761
+      value: -7.974049
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 498e9292f42c8aa4fb215121f1c46fb7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.18541253
+      value: 2.3782535
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 498e9292f42c8aa4fb215121f1c46fb7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -125,7 +125,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 12.812168, y: -0.06589848}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -135,7 +135,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.8}
+  m_Size: {x: 26.624336, y: 1.9485165}
   m_EdgeRadius: 0
 --- !u!114 &4440063724043422753
 MonoBehaviour:
@@ -154,6 +154,7 @@ MonoBehaviour:
   end: {fileID: 8300000, guid: 0fd824ff65a25094f914a227b4ab579a, type: 3}
   left: {fileID: 0}
   right: {fileID: 0}
+  laserTime: 0
 --- !u!82 &-938928364309383789
 AudioSource:
   m_ObjectHideFlags: 0

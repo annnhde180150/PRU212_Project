@@ -20,11 +20,13 @@ public class Laser : MonoBehaviour
         audio = GetComponent<AudioSource>();
         animation = GetComponent<Animator>();
         stateInfo = animation.GetCurrentAnimatorStateInfo(0);
+        GetComponent<BoxCollider2D>().enabled = false;
         audio.PlayOneShot(start);
+
         StartCoroutine(Lasering());
         left = GameObject.Find("leftTarget").transform;
         right = GameObject.Find("rightTarget").transform;
-        StartCoroutine(RotateLaser(0.1f,laserTime));
+        StartCoroutine(RotateLaser(laserTime, left, right));
     }
 
     // Update is called once per frame
@@ -36,6 +38,7 @@ public class Laser : MonoBehaviour
     IEnumerator Lasering()
     {
         yield return new WaitForSeconds(stateInfo.length);
+        GetComponent<BoxCollider2D>().enabled = true;
         audio.clip = mid;
         audio.loop = true;  // Ensure looping
         audio.Play();
@@ -51,44 +54,23 @@ public class Laser : MonoBehaviour
         Destroy(gameObject);
     }
 
-    IEnumerator RotateLaser(float rotationDuration, float rotationTimeLimit)
+    IEnumerator RotateLaser(float rotationDuration, Transform left, Transform right)
     {
-        float totalElapsedTime = 0f;
+        float elapsedTime = 0f;
+        float startAngle = Mathf.Atan2(left.position.y - transform.position.y, left.position.x - transform.position.x) * Mathf.Rad2Deg;
+        float endAngle = Mathf.Atan2(right.position.y - transform.position.y, right.position.x - transform.position.x) * Mathf.Rad2Deg;
 
-        while (totalElapsedTime < rotationTimeLimit)
+        while (elapsedTime < rotationDuration)
         {
-            float elapsedTime = 0f;
-            Quaternion startRotation = transform.rotation;
-            Quaternion endRotation = Quaternion.LookRotation(right.position - transform.position);
-
-            while (elapsedTime < rotationDuration)
-            {
-                transform.rotation = Quaternion.Lerp(startRotation, endRotation, elapsedTime / rotationDuration);
-                elapsedTime += Time.deltaTime;
-                totalElapsedTime += Time.deltaTime;
-
-                if (totalElapsedTime >= rotationTimeLimit)
-                    yield break; // Stop when the time limit is reached
-
-                yield return null;
-            }
-
-            // Swap directions
-            elapsedTime = 0f;
-            startRotation = transform.rotation;
-            endRotation = Quaternion.LookRotation(left.position - transform.position);
-
-            while (elapsedTime < rotationDuration)
-            {
-                transform.rotation = Quaternion.Lerp(startRotation, endRotation, elapsedTime / rotationDuration);
-                elapsedTime += Time.deltaTime;
-                totalElapsedTime += Time.deltaTime;
-
-                if (totalElapsedTime >= rotationTimeLimit)
-                    yield break;
-
-                yield return null;
-            }
+            float zRotation = Mathf.Lerp(startAngle, endAngle, elapsedTime / rotationDuration);
+            transform.rotation = Quaternion.Euler(0, 0, zRotation);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+
+        // Ensure it reaches exactly the final angle
+        transform.rotation = Quaternion.Euler(0, 0, endAngle);
     }
+
+
 }

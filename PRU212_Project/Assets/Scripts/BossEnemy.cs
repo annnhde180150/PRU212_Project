@@ -73,7 +73,7 @@ public class BossEnemy : Enemy
         else StartCoroutine(Die());
     }
 
-    //work no sound
+    //work
     IEnumerator Shielding()
     {
         canMove = false;
@@ -143,7 +143,7 @@ public class BossEnemy : Enemy
         //render bullet
         var playPos = GameObject.Find("Player").transform.position;
         var newFirePoint = new Vector3(_firePoint.position.x + offsetX*(-direction), _firePoint.position.y - offsetY, 0);
-        var bullet = Instantiate(bulletPrefab, newFirePoint, _firePoint.rotation);
+        var bullet = Instantiate(bulletPrefab, newFirePoint, _firePoint.rotation, transform);
         var damage = GetComponent<Enemy>().damage;
         bullet.GetComponent<Bullet>().SetTarget(playPos, _firePoint.position, (int)damage);
 
@@ -192,7 +192,7 @@ public class BossEnemy : Enemy
         canMove = true;
     }
 
-    //not work
+    //work
     IEnumerator Lasering()
     {
         canMove = false;
@@ -200,7 +200,7 @@ public class BossEnemy : Enemy
         yield return null;
 
         var playPos = GameObject.Find("Player").transform.position;
-        var laser = Instantiate(laserPrefab, laserPoint.transform.position, _firePoint.rotation);
+        var laser = Instantiate(laserPrefab, laserPoint.transform.position, _firePoint.rotation, transform);
         laser.GetComponent<Laser>().laserTime = laserTime;
         //bullet.GetComponent<Bullet>().SetTarget(playPos, _firePoint.position);
         yield return new WaitForSeconds(laserTime);

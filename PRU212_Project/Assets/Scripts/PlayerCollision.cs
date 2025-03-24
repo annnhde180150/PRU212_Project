@@ -23,9 +23,8 @@ public class PlayerCollision : MonoBehaviour
         if (collision.CompareTag("Boss"))
         {
             //- boss damage
-            var enemy = collision.GetComponentInParent<Bullet>();
-            var enemy2 = collision.GetComponentInParent<BossHand>();
-            var damage = enemy == null? enemy2.Damage : enemy._Damage;
+            var boss = collision.GetComponentInParent<Enemy>();
+            float damage = boss.damage;
             HeathManager.TakeDamage((int)damage);
             PlayerController.playHurtsound();
             if (HeathManager.health <= 0)
