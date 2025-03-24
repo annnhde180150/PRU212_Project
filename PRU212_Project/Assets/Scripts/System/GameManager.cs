@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour, IData
 {
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour, IData
     public GameObject coinPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public static GameManager instant;
+
+    private static HashSet<string> collectedCoins = new HashSet<string>();
     void Awake()
     {
         instant = this;
@@ -89,6 +92,18 @@ public class GameManager : MonoBehaviour, IData
         updateScore();
     }
 
-
+    public static void CollectCoin(string coinID)
+    {
+        if (!collectedCoins.Contains(coinID))
+        {
+            collectedCoins.Add(coinID);
+            PlayerPrefs.SetInt(coinID, 1); // Save to PlayerPrefs
+            PlayerPrefs.Save();
+        }
+    }
+    public static bool IsCoinCollected(string coinID)
+    {
+        return collectedCoins.Contains(coinID) || PlayerPrefs.GetInt(coinID, 0) == 1;
+    }
 
 }

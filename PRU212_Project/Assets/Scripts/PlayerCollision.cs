@@ -1,11 +1,16 @@
 using System.Collections;
 using UnityEditor.Search;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerCollision : MonoBehaviour
 {
     private GameManager gameManager;
     private PlayerController player;
+
+    public AudioClip dropSound;
+    public AudioClip collectSound;
+    private AudioSource audioSource;
     private void Awake()
     {
         gameManager = FindAnyObjectByType<GameManager>();
@@ -16,6 +21,11 @@ public class PlayerCollision : MonoBehaviour
         var gameOver = FindAnyObjectByType<GameOverScript>();
         if (collision.CompareTag("Coin"))
         {
+            // Play coin collect sound
+            if (collectSound != null)
+            {
+                AudioSource.PlayClipAtPoint(collectSound, transform.position);
+            }
             Destroy(collision.gameObject);
             gameManager.addScore(1);
         }
@@ -38,6 +48,10 @@ public class PlayerCollision : MonoBehaviour
                 {
                     gameManager.DropCoins(collision.transform.position);
                     gameManager.addScore(-3);
+                    if (dropSound != null)
+                    {
+                        AudioSource.PlayClipAtPoint(dropSound, transform.position);
+                    }
                     Debug.Log("Hit enemy");
                 }
                 StartCoroutine(GetHurt());
@@ -100,6 +114,10 @@ public class PlayerCollision : MonoBehaviour
                     {
                         gameManager.DropCoins(collision.transform.position);
                         gameManager.addScore(-3);
+                        if (dropSound != null)
+                        {
+                            AudioSource.PlayClipAtPoint(dropSound, transform.position);
+                        }
                         Debug.Log("Hit enemy");
                     }
                     StartCoroutine(GetHurt());
@@ -154,6 +172,10 @@ public class PlayerCollision : MonoBehaviour
                     {
                         gameManager.DropCoins(collision.transform.position);
                         gameManager.addScore(-3);
+                        if (dropSound != null)
+                        {
+                            AudioSource.PlayClipAtPoint(dropSound, transform.position);
+                        }
                         Debug.Log("Hit enemy");
                     }
                     StartCoroutine(GetHurt());
@@ -186,6 +208,10 @@ public class PlayerCollision : MonoBehaviour
                         gameManager.DropCoins(collision.transform.position);
                         gameManager.addScore(-3);
                         Debug.Log("Hit enemy");
+                        if (dropSound != null)
+                        {
+                            AudioSource.PlayClipAtPoint(dropSound, transform.position);
+                        }
                     }
                     StartCoroutine(GetHurt());
                 }
@@ -199,7 +225,6 @@ public class PlayerCollision : MonoBehaviour
         GetComponent<Animator>().SetLayerWeight(1, 1);
         yield return new WaitForSeconds(3);
         GetComponent<Animator>().SetLayerWeight(1, 0);
-        Physics2D.IgnoreLayerCollision(8, 9,false);
-
+        Physics2D.IgnoreLayerCollision(8, 9, false);
     }
 }

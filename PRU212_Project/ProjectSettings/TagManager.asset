@@ -67,6 +67,9 @@ TagManager:
   - name: Player
     uniqueID: 1497628821
     locked: 0
+  - name: Hat
+    uniqueID: 2351795741
+    locked: 0
   - name: PlayerAnimation
     uniqueID: 1506188503
     locked: 0
