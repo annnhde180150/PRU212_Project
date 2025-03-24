@@ -14988,7 +14988,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8688229801061481411, guid: e1bb8eb3656490b4b86f9ca76b3b85b1, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[1].second.m_AnimationSpeed
-      value: 6
+      value: 6.0000005
       objectReference: {fileID: 0}
     - target: {fileID: 8688229801061481411, guid: e1bb8eb3656490b4b86f9ca76b3b85b1, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[2].second.m_AnimationSpeed
@@ -15392,9 +15392,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1572157941939485601, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: MinDistance
+      value: 0.9999999
+      objectReference: {fileID: 0}
     - target: {fileID: 8420446076217574343, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.12
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 8420446076217574343, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
       propertyPath: m_LocalPosition.y
@@ -15431,6 +15435,10 @@ PrefabInstance:
     - target: {fileID: 8420446076217574343, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664651387349583554, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8734333008758205346, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
       propertyPath: m_Name
@@ -15524,3 +15532,5 @@ SceneRoots:
   - {fileID: 224313570}
   - {fileID: 1006894673}
   - {fileID: 1390527703}
+  - {fileID: 339689446}
+  - {fileID: 170730882}
