@@ -238,6 +238,12 @@ public class BossEnemy : Enemy
         animation.SetTrigger("IsDying");
         animation.SetBool("isDead", true);
         //yield return new WaitForSeconds(0.8f);
+
+        DoorScript door = FindFirstObjectByType<DoorScript>();
+        if (door != null)
+        {
+            door.ShowDoor(); 
+        }
     }
 
     private void Stop()
