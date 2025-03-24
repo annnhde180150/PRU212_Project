@@ -83,9 +83,16 @@ public class ShopManager : MonoBehaviour
     //Purchase heart button
     public void PurchaseHeart()
     {
-        HeathManager.AddHealth(1);
-        GameManager.instant.addScore(-5);
-        LoadPanel();
+        if (HeathManager.GetHeart() == 6)
+        {
+            LoadPanel();
+        }
+        else
+        {
+            HeathManager.AddHealth(1);
+            GameManager.instant.addScore(-5);
+            LoadPanel();
+        }      
     }
 
     public void PurchaseFullGeneration()
