@@ -10,7 +10,6 @@ public class GameOverScript : MonoBehaviour
     public static GameOverScript Instance;
     private bool isGameOver = false;
     public GameObject player;
-    public GameObject firstCheckpoint;
     private PlayerController playerController;
     public static bool isRestarting = false;
     void Awake()

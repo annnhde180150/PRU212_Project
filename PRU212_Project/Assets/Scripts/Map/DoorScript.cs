@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -52,6 +53,7 @@ public class DoorScript : MonoBehaviour
     private void UpdateGameDataForNextScene(string nextScene)
     {
         GameData gameData = DataManager.Instance.GetGameData();
+        nextScenePos = CheckPointScript.GetCheckpointForScene(nextScene);
 
         PlayerManager.lastCheckPointPos = nextScenePos;
         gameData.currentLevel = nextScene;

@@ -14968,7 +14968,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8688229801061481411, guid: e1bb8eb3656490b4b86f9ca76b3b85b1, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[4].second.m_AnimationSpeed
-      value: 6.0000005
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8688229801061481411, guid: e1bb8eb3656490b4b86f9ca76b3b85b1, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[7].second.m_AnimationSpeed
@@ -15460,7 +15460,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 9097c01abb9dbbf46b590ede69141fbf, type: 3}
     - target: {fileID: 5730358786720886415, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
       propertyPath: health
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8420446076217574343, guid: 90881eaa06eafc34cb5bc08e23182282, type: 3}
       propertyPath: m_LocalPosition.x
