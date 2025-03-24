@@ -17,6 +17,7 @@ public class BossEnemy : Enemy
     [SerializeField] protected AudioClip RampSound;
     [SerializeField] protected AudioClip Enhancing;
     [SerializeField] protected AudioClip Melee;
+    [SerializeField] protected AudioClip Hurt;
     protected bool isShooting = false;
 
     [SerializeField] private float laserTime = 4f;
@@ -222,8 +223,6 @@ public class BossEnemy : Enemy
         isDead = true;
         isDying = true;
         canMove = false;
-        animation.SetBool("isDead", true);
-        yield return null;
 
         rb.gravityScale = 0;
         rb.linearVelocity = Vector2.zero;
@@ -236,9 +235,9 @@ public class BossEnemy : Enemy
         audioSource.PlayOneShot(deathSound);
         stateInfo = animation.GetCurrentAnimatorStateInfo(0);
         transform.position = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
-        yield return new WaitForSeconds(stateInfo.length);
-        yield return new WaitForSeconds(0.8f);
-        animation.speed = 0;
+        animation.SetTrigger("IsDying");
+        animation.SetBool("isDead", true);
+        //yield return new WaitForSeconds(0.8f);
     }
 
     private void Stop()
@@ -270,10 +269,21 @@ public class BossEnemy : Enemy
         isPatternAttacking = false;
     }
 
+    public void getHurt()
+    {
+        audioSource.PlayOneShot(Hurt);
+    }
+
     public void reStart()
     {
         transform.position = spawn;
         StopCoroutine(playing);
+        isPatternAttacking = false;
+        isShooting = false;
+        isMelee = false;
+        canMove = true;
+        canStop = true;
+        isImmuned = false;
         health = 10;
     }
 }
