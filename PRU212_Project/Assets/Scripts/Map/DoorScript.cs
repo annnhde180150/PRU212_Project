@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,23 +8,52 @@ public class DoorScript : MonoBehaviour
     private Animator animator;
     private bool isPlayerInDoor = false;
     public string nextScene;
-    private Vector2 nextScenePos = new Vector2(-9.7f, -3.6f);
+    private Vector2 nextScenePos;
+    private BossEnemy bossEnemy;
+
+    private Renderer doorRenderer;
+    private Collider2D doorCollider;
     private void Start()
     {
-        animator = GetComponent<Animator>(); 
+        animator = GetComponent<Animator>();
+
+        doorRenderer = GetComponent<Renderer>();
+        doorCollider = GetComponent<Collider2D>();
+
+        bossEnemy = FindFirstObjectByType<BossEnemy>();
+        if (bossEnemy != null && !bossEnemy.isDead)
+        {
+            doorRenderer.enabled = false;
+            doorCollider.enabled = false;
+            Debug.Log("door is closed");
+        }
+       
+
     }
     private void Update()
     {
         if (isPlayerInDoor && (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)))
         {
-            UpdateGameDataForNextScene();
+
+            if (bossEnemy != null && bossEnemy.isDead)
+            {
+                GameData gameData = new GameData();
+                DataManager.Instance.SaveGame();
+            }
+            else
+            {
+                UpdateGameDataForNextScene(nextScene);
+            }
+
             SceneManager.LoadScene(nextScene);
         }
+
     }
    
-    private void UpdateGameDataForNextScene()
+    private void UpdateGameDataForNextScene(string nextScene)
     {
         GameData gameData = DataManager.Instance.GetGameData();
+        nextScenePos = CheckPointScript.GetCheckpointForScene(nextScene);
 
         PlayerManager.lastCheckPointPos = nextScenePos;
         gameData.currentLevel = nextScene;
@@ -48,6 +78,13 @@ public class DoorScript : MonoBehaviour
             animator.SetBool("isOpen", false);
             isPlayerInDoor = false;
         }
+    }
+
+    public void ShowDoor()
+    {
+        doorRenderer.enabled = true;
+        doorCollider.enabled = true;
+        Debug.Log("door is open");
     }
 
 

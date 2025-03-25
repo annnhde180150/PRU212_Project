@@ -12,9 +12,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] public float StuntTime = 3f;
     [SerializeField] public Animator animation;
     public bool isDead = false;
-    private bool isDying = false;
+    protected bool isDying = false;
     public bool isStunned = false;
-    private bool isStunning = false;
+    protected bool isStunning = false;
     protected bool canTurn = true;
     public float range;
     protected int direction = 1;

@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour, IData
 {
     public static Vector2 lastCheckPointPos = Vector2.zero;
-    public Collider2D platformCollider;
     private GameOverScript gameOverScript;
 
     private void Awake()
