@@ -22,6 +22,7 @@ public class BossEnemy : Enemy
     [SerializeField] protected AudioClip winning;
     [SerializeField] protected AudioSource mainMusic;
     protected bool isShooting = false;
+    private GameObject _laser;
 
     [SerializeField] private float laserTime = 4f;
     [SerializeField] private TrailRenderer tr;
@@ -207,6 +208,7 @@ public class BossEnemy : Enemy
         var playPos = GameObject.Find("Player").transform.position;
         var laser = Instantiate(laserPrefab, laserPoint.transform.position, _firePoint.rotation, transform);
         laser.GetComponent<Laser>().laserTime = laserTime;
+        _laser = laser;
         //bullet.GetComponent<Bullet>().SetTarget(playPos, _firePoint.position);
         yield return new WaitForSeconds(laserTime);
 
@@ -243,6 +245,7 @@ public class BossEnemy : Enemy
         animation.SetBool("isDead", true);
         //yield return new WaitForSeconds(0.8f);
 
+        mainMusic.volume = 0.5f;
         mainMusic.clip = winning;
         mainMusic.Play();
         DoorScript door = FindFirstObjectByType<DoorScript>();
@@ -297,8 +300,10 @@ public class BossEnemy : Enemy
         canMove = true;
         canStop = true;
         isImmuned = false;
+        animation.speed = 1;
         health = 10;
 
+        Destroy(_laser);
         animation.SetBool("IsLaser", false);
         animation.SetBool("isStunt", false);
         animation.SetBool("isMeleeAttack", false);

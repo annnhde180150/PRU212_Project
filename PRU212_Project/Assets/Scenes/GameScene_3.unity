@@ -15300,6 +15300,14 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 4247300825843271633, guid: bf098975534e0344fa081e3714213e6d, type: 3}
+      propertyPath: dropSound
+      value: 
+      objectReference: {fileID: 8300000, guid: bc6dedb2b4b33044c9fc5c70ea5abe9f, type: 3}
+    - target: {fileID: 4247300825843271633, guid: bf098975534e0344fa081e3714213e6d, type: 3}
+      propertyPath: collectSound
+      value: 
+      objectReference: {fileID: 8300000, guid: c60cb28df69de1343ba3ebc05d9bd2b0, type: 3}
     - target: {fileID: 7137139482695797508, guid: bf098975534e0344fa081e3714213e6d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.53
