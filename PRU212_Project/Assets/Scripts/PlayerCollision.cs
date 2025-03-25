@@ -6,16 +6,28 @@ public class PlayerCollision : MonoBehaviour
 {
     private GameManager gameManager;
     private PlayerController player;
+
+    public AudioClip dropSound;
+    public AudioClip collectSound;
+    private AudioSource audioSource;
     private void Awake()
     {
         gameManager = FindAnyObjectByType<GameManager>();
         player = FindAnyObjectByType<PlayerController>();
+        audioSource = GetComponent<AudioSource>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var gameOver = FindAnyObjectByType<GameOverScript>();
         if (collision.CompareTag("Coin"))
         {
+            // Play coin drop sound when spawned
+            if (collectSound != null)
+            {
+                audioSource.volume = 0.25f;
+                //audioSource.pitch = Random.Range(0.6f, 0.8f);
+                audioSource.PlayOneShot(collectSound);
+            }
             Destroy(collision.gameObject);
             gameManager.addScore(1);
         }
@@ -35,6 +47,12 @@ public class PlayerCollision : MonoBehaviour
             {
                 if (gameManager.GetCointCount() > 0)
                 {
+                    if (dropSound != null)
+                    {
+                        audioSource.volume = 0.25f;
+                        //audioSource.pitch = Random.Range(0.6f, 0.8f);
+                        audioSource.PlayOneShot(dropSound);
+                    }
                     gameManager.DropCoins(collision.transform.position);
                     gameManager.addScore(-3);
                     Debug.Log("Hit enemy");
@@ -97,6 +115,12 @@ public class PlayerCollision : MonoBehaviour
                 {
                     if (gameManager.GetCointCount() > 0)
                     {
+                        if (dropSound != null)
+                        {
+                            audioSource.volume = 0.25f;
+                            //audioSource.pitch = Random.Range(0.6f, 0.8f);
+                            audioSource.PlayOneShot(dropSound);
+                        }
                         gameManager.DropCoins(collision.transform.position);
                         gameManager.addScore(-3);
                         Debug.Log("Hit enemy");
@@ -151,6 +175,12 @@ public class PlayerCollision : MonoBehaviour
                 {
                     if (gameManager.GetCointCount() > 0)
                     {
+                        if (dropSound != null)
+                        {
+                            audioSource.volume = 0.25f;
+                            //audioSource.pitch = Random.Range(0.6f, 0.8f);
+                            audioSource.PlayOneShot(dropSound);
+                        }
                         gameManager.DropCoins(collision.transform.position);
                         gameManager.addScore(-3);
                         Debug.Log("Hit enemy");
@@ -185,6 +215,12 @@ public class PlayerCollision : MonoBehaviour
                 {
                     if (gameManager.GetCointCount() > 0)
                     {
+                        if (dropSound != null)
+                        {
+                            audioSource.volume = 0.25f;
+                            //audioSource.pitch = Random.Range(0.6f, 0.8f);
+                            audioSource.PlayOneShot(dropSound);
+                        }
                         gameManager.DropCoins(collision.transform.position);
                         gameManager.addScore(-3);
                         Debug.Log("Hit enemy");

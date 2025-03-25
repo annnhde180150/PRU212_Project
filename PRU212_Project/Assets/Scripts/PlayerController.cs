@@ -71,6 +71,8 @@ public class PlayerController : MonoBehaviour
     public bool isSpecialAttack = false;
     private int specialJumpDustCount = 0;
 
+    public Sprite[] hat;
+
 
     // Awake is called when the script instance is being loaded
     private void Awake()

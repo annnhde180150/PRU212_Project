@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -109,6 +110,8 @@ public class ShopManager : MonoBehaviour
 
     public void buyHat()
     {
+        GameManager.instant.addScore(-5);
+        HatManager.instance.GiveHat();
         LoadPanel();
     }
 }

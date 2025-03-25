@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ebb3b9175972364baea199de75d9112, type: 3}
   m_Name: Buy Hat
   m_EditorClassIdentifier: 
-  title: Snow Hat
-  description: Add a new hat for dino
-  baseCost: 10
+  title: Hat
+  description: Get a random hat for dino
+  baseCost: 5
